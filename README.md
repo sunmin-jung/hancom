@@ -1,2 +1,2 @@
 # hancom
-study
+front web study
