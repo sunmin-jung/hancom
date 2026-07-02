@@ -1,0 +1,68 @@
+/* 페이지를 일부러 길게 만들어서 스크롤 생성=>fixed, sticky 동작 확인용 */
+body {
+    min-height: 1500px;
+}
+/* 부모 박스 position: relative */
+.parent {
+    position: relative; /*기준이 되는 부모*/
+    border: 1px dashed red;
+    border-radius: 8px;
+    height: 120px;
+    background-color: rgb(231, 213, 189);
+    margin: 10px 0;
+}
+
+/* relative : 원래 자리 기준으로 이동 */
+.ptag {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    color: purple;
+    font-weight: bold;
+}
+
+.rel {
+    position: relative;
+    top: 30px;
+    left: 20px;
+    width: 600px;
+    padding: 8px;
+    background: rgb(101, 247, 191);
+    font-weight: bold;
+    color:rgb(12, 92, 65);
+    z-index: 0;
+}
+
+.abs {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 120px;
+    padding: 8px;
+    background: #f59e0b;
+    color: #3a2400;
+    font-weight: bold;
+    border-radius: 6px;
+}
+.fixed {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    padding: 10px;
+    background: #ec4899;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 6px;
+    z-index: 10;
+}
+/*sticky: 스크롤하다 top: @지정에 닿으면 상단에 찾 붙음 */
+.sticky {
+    position: sticky;
+    top:0;
+    margin: 10px 0;
+    padding: 8px 12px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: bold; 
+    border-radius: 6px;
+}
