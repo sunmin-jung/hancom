@@ -1,0 +1,15 @@
+*{
+    margin: 100;      /*기본 바깥 여백 제거*/
+    padding: 100;     /*기본 왼쪽 여백 제거*/
+    box-sizing: border-box; /*크기 계산 방식*/
+}
+h1{
+    color: green;
+}
+
+p{
+    color: green;
+}
+h1{
+    color: green;
+}

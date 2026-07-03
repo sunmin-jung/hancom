@@ -1,0 +1,23 @@
+.menu{
+    display: flex;
+    gap: 50px;
+    list-style: none;
+}
+/* li 부분 디자인 입히기*/
+
+#li1{
+    background-color: rgb(157, 185, 185);
+    border: 2px;
+
+}
+#li2{
+    background-color: rgb(139, 163, 163);
+    border: 2px;
+
+}
+#li3{
+    background-color: rgb(151, 180, 180);
+    border: 5px;
+    color: rgb(19, 13, 13);
+
+}

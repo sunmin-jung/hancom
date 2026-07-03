@@ -1,0 +1,26 @@
+@keyframes move {
+    0%, 100% { transform:translatex(1);} /*시작 끝:제자리*/
+    50% {transform: translatex(-100px);} 
+}
+
+.ball {
+    width: 80px; 
+    height: 80px;
+    border-radius: 50%;
+    background: hotpink;
+    animation: move 10s ease-in-out infinite;
+}
+
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.ball {
+    animation-delay: 0.5s;
+    width: 80px; 
+    height: 80px;
+    border-radius: 50%;
+    background: hotpink;
+    animation: move 10s ease-in-out infinite;
+}

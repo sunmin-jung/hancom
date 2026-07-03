@@ -1,0 +1,17 @@
+.card {
+    width: 150px; height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgb(219, 184, 184);
+    font-weight: 700;
+    border-radius: 16px;
+    opacity: 0.85; /* 투명도 85% */
+    transition: all 0.3s ease; /*바뀔 때 0.3초 스르륵 */
+    color:white;
+   
+}
+/* 마우슬 올리면 -> 떠오르고 또렷해지고 그림자 커짐 */
+.card:hover {
+    opacity: 1;
+    transform: translateY(-8px); /*위로 8px 떠오름 */
+    box-shadow: 0 160 32px rgba(77, 4, 40, 0.5); /*그림자 진하게*/;
+}

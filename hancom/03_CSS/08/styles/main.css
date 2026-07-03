@@ -1,0 +1,37 @@
+.card{
+    
+    width: 200px;  
+    height: 130px;
+    perspective:600px;
+    /* perspective: 600px;  3D 화면 구성 */
+}
+.inner {
+    border: 1px double red;
+    position: relative;
+    width: 130px;
+    height: 130px;
+    transition: transform 0.6s; /*transform이 바뀔때 0.6초 걸쳐 부드럽게 */
+    transform-style: preserve-3d; /* 자식용 3D 공간에 둠*/
+ }
+.card:hover .inner {
+        transform: rotateY(180deg);
+}
+.front, .back {
+        border: 3px dotted blue;
+        position: absolute; /*앞 |뒷면을 .inner 위에 겹쳐 쌓음*/
+        inset: 0; /* top, right, bottom, left 전부 0 (부모 꽉채움*/
+        display: flex; /* 안에 있는 글자를 가운데 두기 위해 */
+        align-items: center; /*세로 가운데 정렬*/
+        justify-content: center; /*가로 가운데 정렬*/
+        border-radius: 12px;
+        color: white;
+        font-size: 20px;
+        backface-visibility: hidden;
+ }
+.front {
+        background: hotpink;
+}
+.back {
+        background: blue;
+        transform: rotateY(180deg); 
+    }

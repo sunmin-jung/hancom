@@ -1,0 +1,13 @@
+/* Set-ExecutionPolicy -Scope CurrentUser RemoteSigned */
+/* 
+-Node.js 설치 중 npm 버전이 확인이 안됨 
+-아래 명령어 입력하여 해결
+-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+-파워셀*/
+.box {
+    width: 120px;
+    color: white;
+    background-color: hotpink;
+    height: 120px;
+    border-radius: 16px;
+}
