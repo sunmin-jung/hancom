@@ -39,3 +39,25 @@ li{
     list-style-type: disc;
 }
 
+.card {width: 200px; height: 130px; perspective: 600px;}
+
+.inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transition:transform 0.6s;
+    transform-style:preserve-3d;
+}
+.card:hover .inner {transform: rotateY(180deg);}
+
+.front, .back {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px; color: white; font-size: 20px;
+    backface-visibility: hidden;
+}
+
+.front {background: rgb(212, 178, 219);}
+.back {background: rgb(179, 141, 216); transform: rotateY(180deg);}
