@@ -39,11 +39,11 @@ li{
     list-style-type: disc;
 }
 
-.card {width: 200px; height: 130px; perspective: 600px;}
+.card {width: 150px; height: 120px; perspective: 500px;}
 
 .inner {
     position: relative;
-    width: 100%; height: 100%;
+    width: 150%; height: 90%;
     transition:transform 0.6s;
     transform-style:preserve-3d;
 }
@@ -62,6 +62,6 @@ li{
 .front {background: rgb(212, 178, 219);}
 .back {background: rgb(179, 141, 216); transform: rotateY(180deg);}
 
-.body {
-    background-color: black;
+body {
+    background-color: lightblue;
 }
