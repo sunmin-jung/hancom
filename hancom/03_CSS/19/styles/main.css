@@ -61,3 +61,7 @@ li{
 
 .front {background: rgb(212, 178, 219);}
 .back {background: rgb(179, 141, 216); transform: rotateY(180deg);}
+
+.body {
+    background-color: black;
+}
