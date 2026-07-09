@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Dev Blog — HTML · CSS · JS 기초</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">&lt;/&gt;</span>
+        <span class="logo-text">DevBlog</span>
+      </div>
+      <nav class="nav">
+        <a href="#html">HTML</a>
+        <a href="#css">CSS</a>
+        <a href="#js">JS</a>
+        <a href="#project">PROJECT</a>
+      </nav>
+      <button class="dark-toggle" id="darkToggle" aria-label="다크모드 전환">
+        <span class="toggle-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="hero-content">
+        <p class="hero-label">초보자를 위한 웹 개발 입문 가이드</p>
+        <h1 class="hero-title">HTML · CSS · JS<br><span class="gradient-text">기초부터 시작하기</span></h1>
+        <p class="hero-desc">
+          웹 개발의 3가지 핵심 요소를 단계별로 학습하세요.<br>
+          각 개념마다 실제 코드 예제와 시각적 데모가 포함되어 있습니다.
+        </p>
+        <div class="hero-badges">
+          <span class="badge badge-html">HTML</span>
+          <span class="badge badge-css">CSS</span>
+          <span class="badge badge-js">JS</span>
+        </div>
+        <a href="#html" class="hero-btn">학습 시작하기 →</a>
+      </div>
+
+      <div class="hero-visual">
+        <div class="code-window">
+          <div class="code-bar">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="code-filename">index.html</span>
+          </div>
+          <pre class="code-preview"><code><span class="syn-tag">&lt;!DOCTYPE</span> <span class="syn-attr">html</span><span class="syn-tag">&gt;</span>
+<span class="syn-tag">&lt;html</span> <span class="syn-attr">lang</span>=<span class="syn-str">"ko"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;head&gt;</span>
+    <span class="syn-tag">&lt;title&gt;</span><span class="syn-text">나의 웹사이트</span><span class="syn-tag">&lt;/title&gt;</span>
+    <span class="syn-tag">&lt;link</span> <span class="syn-attr">rel</span>=<span class="syn-str">"stylesheet"</span>
+          <span class="syn-attr">href</span>=<span class="syn-str">"style.css"</span><span class="syn-tag">&gt;</span>
+  <span class="syn-tag">&lt;/head&gt;</span>
+  <span class="syn-tag">&lt;body&gt;</span>
+    <span class="syn-tag">&lt;h1&gt;</span><span class="syn-text">Hello, World! 👋</span><span class="syn-tag">&lt;/h1&gt;</span>
+    <span class="syn-tag">&lt;script</span> <span class="syn-attr">src</span>=<span class="syn-str">"main.js"</span><span class="syn-tag">&gt;</span>
+    <span class="syn-tag">&lt;/script&gt;</span>
+  <span class="syn-tag">&lt;/body&gt;</span>
+<span class="syn-tag">&lt;/html&gt;</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HTML SECTION ===== -->
+    <section class="lesson-section" id="html">
+      <div class="section-header">
+        <span class="section-tag badge-html">HTML</span>
+        <h2 class="section-title">HTML 기초</h2>
+        <p class="section-desc">HyperText Markup Language — 웹 페이지의 뼈대와 내용을 정의합니다</p>
+      </div>
+
+      <div class="cards-grid">
+
+        <article class="card">
+          <div class="card-icon">🏗️</div>
+          <h3>기본 문서 구조</h3>
+          <p>모든 HTML 문서는 정해진 뼈대를 가지고 있습니다. 브라우저가 이 구조를 읽어 화면에 그립니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">HTML</span>
+              <button class="copy-btn" data-target="code-html-1">복사</button>
+            </div>
+            <pre><code id="code-html-1">&lt;!DOCTYPE html&gt;
+&lt;html lang="ko"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;페이지 제목&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- 여기에 내용을 작성합니다 --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span><code>&lt;!DOCTYPE html&gt;</code>은 HTML5 문서임을 브라우저에 알려주는 선언문입니다</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🏷️</div>
+          <h3>시맨틱 태그</h3>
+          <p>의미 있는 태그를 사용하면 코드 가독성과 검색 엔진 최적화(SEO)가 향상됩니다.</p>
+          <div class="semantic-demo">
+            <div class="sem-header">header</div>
+            <div class="sem-nav">nav</div>
+            <div class="sem-main">
+              <div class="sem-section">section</div>
+              <div class="sem-article">article</div>
+            </div>
+            <div class="sem-footer">footer</div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">HTML</span>
+              <button class="copy-btn" data-target="code-html-2">복사</button>
+            </div>
+            <pre><code id="code-html-2">&lt;header&gt;상단 헤더&lt;/header&gt;
+&lt;nav&gt;네비게이션 메뉴&lt;/nav&gt;
+&lt;main&gt;주요 콘텐츠&lt;/main&gt;
+&lt;section&gt;섹션 구분&lt;/section&gt;
+&lt;article&gt;독립적인 콘텐츠&lt;/article&gt;
+&lt;footer&gt;하단 푸터&lt;/footer&gt;</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span><code>&lt;div&gt;</code> 대신 목적에 맞는 시맨틱 태그를 우선 사용하세요</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🔗</div>
+          <h3>자주 쓰는 태그</h3>
+          <p>텍스트, 링크, 이미지, 목록 등 콘텐츠를 표현하는 기본 태그들입니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">HTML</span>
+              <button class="copy-btn" data-target="code-html-3">복사</button>
+            </div>
+            <pre><code id="code-html-3">&lt;h1&gt;제목 (h1 ~ h6)&lt;/h1&gt;
+&lt;p&gt;단락 텍스트입니다.&lt;/p&gt;
+&lt;a href="https://..."&gt;링크&lt;/a&gt;
+&lt;img src="photo.jpg" alt="사진 설명"&gt;
+&lt;ul&gt;
+  &lt;li&gt;목록 항목 1&lt;/li&gt;
+  &lt;li&gt;목록 항목 2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;button&gt;클릭 버튼&lt;/button&gt;</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span><code>&lt;img&gt;</code>에는 반드시 <code>alt</code> 속성을 추가하세요 (웹 접근성)</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== CSS SECTION ===== -->
+    <section class="lesson-section" id="css">
+      <div class="section-header">
+        <span class="section-tag badge-css">CSS</span>
+        <h2 class="section-title">CSS 기초</h2>
+        <p class="section-desc">Cascading Style Sheets — HTML 요소의 디자인과 레이아웃을 담당합니다</p>
+      </div>
+
+      <div class="cards-grid">
+
+        <article class="card">
+          <div class="card-icon">🎯</div>
+          <h3>선택자 (Selector)</h3>
+          <p>스타일을 적용할 HTML 요소를 지정하는 방법입니다. 크게 3가지 방식이 있습니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">CSS</span>
+              <button class="copy-btn" data-target="code-css-1">복사</button>
+            </div>
+            <pre><code id="code-css-1">/* 태그 선택자 — 모든 p 태그 */
+p { color: black; }
+
+/* 클래스 선택자 — .highlight 클래스 */
+.highlight { background: yellow; }
+
+/* ID 선택자 — #title ID */
+#title { font-size: 2rem; }
+
+/* 후손 선택자 */
+.card p { line-height: 1.6; }
+
+/* 상태 선택자 (pseudo-class) */
+button:hover { background: blue; }</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>클래스(.class)는 여러 요소에, ID(#id)는 페이지 내 단 하나의 요소에만 사용하세요</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">📦</div>
+          <h3>박스 모델 (Box Model)</h3>
+          <p>모든 HTML 요소는 사각형 박스로 이루어져 있습니다. 4개의 영역으로 구성됩니다.</p>
+          <div class="box-model-demo">
+            <div class="bm-margin">
+              <span class="bm-label">margin</span>
+              <div class="bm-border">
+                <span class="bm-label">border</span>
+                <div class="bm-padding">
+                  <span class="bm-label">padding</span>
+                  <div class="bm-content">content</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">CSS</span>
+              <button class="copy-btn" data-target="code-css-2">복사</button>
+            </div>
+            <pre><code id="code-css-2">.box {
+  width: 200px;
+  padding: 20px;         /* 내부 여백 */
+  border: 2px solid #333; /* 테두리 */
+  margin: 16px;          /* 외부 여백 */
+  box-sizing: border-box; /* 권장 설정 */
+}</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span><code>box-sizing: border-box</code>를 쓰면 padding/border가 width에 포함되어 계산이 편해집니다</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Flexbox 레이아웃</h3>
+          <p>요소를 가로/세로로 자유롭게 배치할 수 있는 강력한 레이아웃 방식입니다.</p>
+          <div class="flex-demo">
+            <div class="flex-demo-row" id="flexDemo">
+              <div class="flex-box">1</div>
+              <div class="flex-box">2</div>
+              <div class="flex-box">3</div>
+            </div>
+            <div class="flex-controls">
+              <button class="flex-btn active" data-justify="flex-start">start</button>
+              <button class="flex-btn" data-justify="center">center</button>
+              <button class="flex-btn" data-justify="flex-end">end</button>
+              <button class="flex-btn" data-justify="space-between">between</button>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">CSS</span>
+              <button class="copy-btn" data-target="code-css-3">복사</button>
+            </div>
+            <pre><code id="code-css-3">.container {
+  display: flex;
+  justify-content: center; /* 가로(주축) 정렬 */
+  align-items: center;     /* 세로(교차축) 정렬 */
+  gap: 16px;               /* 아이템 간격 */
+  flex-wrap: wrap;         /* 줄 바꿈 허용 */
+}</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>위 버튼을 클릭하면 <code>justify-content</code> 값이 바뀌는 걸 직접 확인할 수 있습니다!</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">✨</div>
+          <h3>호버 효과 (Hover)</h3>
+          <p>마우스를 올렸을 때 시각적 변화를 주어 인터랙티브한 UI를 만듭니다.</p>
+          <div class="hover-demo">
+            <div class="hover-card">마우스를 올려보세요 ✋</div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">CSS</span>
+              <button class="copy-btn" data-target="code-css-4">복사</button>
+            </div>
+            <pre><code id="code-css-4">.card {
+  background: white;
+  border-radius: 12px;
+  transition: all 0.3s ease; /* 부드러운 전환 */
+}
+
+.card:hover {
+  transform: translateY(-6px); /* 위로 이동 */
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span><code>transition</code>을 꼭 추가해야 hover 시 부드럽게 애니메이션됩니다</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🎨</div>
+          <h3>CSS 변수 (Custom Properties)</h3>
+          <p>자주 쓰는 값을 변수로 저장해 재사용할 수 있습니다. 다크모드 구현에도 핵심입니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">CSS</span>
+              <button class="copy-btn" data-target="code-css-5">복사</button>
+            </div>
+            <pre><code id="code-css-5">/* 변수 선언 (루트에 정의) */
+:root {
+  --primary: #3b82f6;
+  --bg: #ffffff;
+  --text: #111111;
+}
+
+/* 다크모드 변수 재정의 */
+body.dark {
+  --bg: #1a1a2e;
+  --text: #e0e0e0;
+}
+
+/* 변수 사용 */
+body {
+  background: var(--bg);
+  color: var(--text);
+}</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span><code>:root</code>에 변수를 선언하면 어디서든 <code>var(--변수명)</code>으로 참조할 수 있습니다</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">📱</div>
+          <h3>반응형 디자인</h3>
+          <p>화면 크기에 따라 다르게 보이도록 스타일을 분기하는 방법입니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">CSS</span>
+              <button class="copy-btn" data-target="code-css-6">복사</button>
+            </div>
+            <pre><code id="code-css-6">/* 기본: 1열 레이아웃 (모바일) */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+/* 768px 이상: 2열 레이아웃 (태블릿) */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* 1024px 이상: 3열 레이아웃 (PC) */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>모바일 우선(Mobile First) 방식으로 작성하는 것이 현대 웹 개발의 표준입니다</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== JS SECTION ===== -->
+    <section class="lesson-section" id="js">
+      <div class="section-header">
+        <span class="section-tag badge-js">JS</span>
+        <h2 class="section-title">JavaScript 기초</h2>
+        <p class="section-desc">웹 페이지에 동적인 기능과 상호작용을 추가합니다</p>
+      </div>
+
+      <div class="cards-grid">
+
+        <article class="card">
+          <div class="card-icon">📝</div>
+          <h3>변수와 자료형</h3>
+          <p>데이터를 저장하고 관리하는 기본 방법입니다. 변수 선언에는 3가지 키워드가 있습니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">JS</span>
+              <button class="copy-btn" data-target="code-js-1">복사</button>
+            </div>
+            <pre><code id="code-js-1">// 변수 선언
+let name = "정선민";     // 변경 가능
+const age = 20;         // 변경 불가 (상수)
+var old = "구식 방식";  // 사용 비권장
+
+// 자료형
+let str = "문자열";       // String
+let num = 42;            // Number
+let bool = true;         // Boolean
+let arr = [1, 2, 3];    // Array
+let obj = { key: "값" }; // Object</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>기본적으로 <code>const</code>를 쓰고, 값이 바뀌어야 할 때만 <code>let</code>을 사용하세요</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">⚙️</div>
+          <h3>함수 (Function)</h3>
+          <p>반복되는 코드를 묶어 재사용 가능하게 만드는 기본 단위입니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">JS</span>
+              <button class="copy-btn" data-target="code-js-2">복사</button>
+            </div>
+            <pre><code id="code-js-2">// 일반 함수 선언
+function greet(name) {
+  return `안녕하세요, ${name}님!`;
+}
+
+// 화살표 함수 (Arrow Function)
+const greet = (name) => {
+  return `안녕하세요, ${name}님!`;
+};
+
+// 단순한 경우 더 짧게도 가능
+const add = (a, b) => a + b;
+
+// 호출
+console.log(greet("선민")); // 안녕하세요, 선민님!
+console.log(add(3, 5));    // 8</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>화살표 함수는 코드가 더 간결하고, 최신 JS에서 많이 사용하는 방식입니다</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🖱️</div>
+          <h3>DOM 제어</h3>
+          <p>JavaScript로 HTML 요소를 찾고, 변경하고, 이벤트를 연결하는 방법입니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">JS</span>
+              <button class="copy-btn" data-target="code-js-3">복사</button>
+            </div>
+            <pre><code id="code-js-3">// 요소 선택
+const btn = document.getElementById("btn");
+const box = document.querySelector(".box");
+const all = document.querySelectorAll(".card");
+
+// 내용 변경
+box.textContent = "새로운 텍스트";
+box.innerHTML = "&lt;strong&gt;굵은 텍스트&lt;/strong&gt;";
+
+// 스타일 변경
+box.style.color = "red";
+box.style.fontSize = "20px";
+
+// 클래스 제어
+box.classList.add("active");
+box.classList.remove("active");
+box.classList.toggle("dark"); // 있으면 제거, 없으면 추가
+
+// 이벤트 연결
+btn.addEventListener("click", () => {
+  console.log("버튼이 클릭되었습니다!");
+});</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>이 페이지의 다크모드 기능도 <code>classList.toggle("dark")</code>로 구현했습니다!</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-icon">🔄</div>
+          <h3>조건문과 반복문</h3>
+          <p>조건에 따라 다르게 실행하거나, 코드를 반복 실행할 수 있습니다.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">JS</span>
+              <button class="copy-btn" data-target="code-js-4">복사</button>
+            </div>
+            <pre><code id="code-js-4">// 조건문 (if-else)
+const score = 85;
+
+if (score >= 90) {
+  console.log("A 등급");
+} else if (score >= 80) {
+  console.log("B 등급"); // 출력됨
+} else {
+  console.log("C 이하");
+}
+
+// 반복문 (for)
+const fruits = ["사과", "바나나", "딸기"];
+
+for (let i = 0; i < fruits.length; i++) {
+  console.log(fruits[i]);
+}
+
+// 더 간결한 방식 (forEach)
+fruits.forEach(fruit => {
+  console.log(fruit);
+});</code></pre>
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>배열을 순회할 때는 전통적인 <code>for</code>문보다 <code>forEach</code>나 <code>for...of</code>를 선호합니다</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ===== PROJECT SECTION ===== -->
+    <section class="lesson-section" id="project">
+      <div class="section-header">
+        <span class="section-tag badge-project">PROJECT</span>
+        <h2 class="section-title">다크모드 구현하기</h2>
+        <p class="section-desc">HTML + CSS + JS를 합쳐서 실제 기능을 직접 만들어봅시다</p>
+      </div>
+
+      <div class="project-card">
+        <div class="project-steps">
+          <h3 class="steps-title">구현 단계</h3>
+
+          <div class="step">
+            <div class="step-num badge-html">1</div>
+            <div class="step-body">
+              <h4>HTML — 토글 버튼 추가</h4>
+              <div class="code-block">
+                <pre><code>&lt;button id="darkToggle"&gt;
+  🌙 다크모드
+&lt;/button&gt;</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num badge-css">2</div>
+            <div class="step-body">
+              <h4>CSS — 라이트/다크 스타일 정의</h4>
+              <div class="code-block">
+                <pre><code>/* 기본 (라이트 모드) */
+body {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* 다크모드 클래스 적용 시 */
+body.dark {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num badge-js">3</div>
+            <div class="step-body">
+              <h4>JS — 버튼 클릭 시 클래스 토글</h4>
+              <div class="code-block">
+                <pre><code>const btn = document.getElementById("darkToggle");
+
+btn.addEventListener("click", () => {
+  // dark 클래스를 추가/제거 반복
+  document.body.classList.toggle("dark");
+});</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-preview">
+          <h3 class="steps-title">라이브 데모</h3>
+          <p class="preview-desc">버튼을 클릭해서 직접 체험해보세요!</p>
+          <div class="demo-window" id="demoWindow">
+            <div class="demo-win-bar">
+              <div class="demo-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <button class="demo-toggle-btn" id="demoToggle">🌙 다크모드</button>
+            </div>
+            <div class="demo-body">
+              <div class="demo-header-sim">
+                <span class="demo-logo">&lt;/&gt; DevBlog</span>
+              </div>
+              <div class="demo-hero-sim">
+                <div class="demo-title-bar"></div>
+                <div class="demo-text-bar short"></div>
+                <div class="demo-text-bar shorter"></div>
+              </div>
+              <div class="demo-cards-sim">
+                <div class="demo-card-sim">
+                  <div class="demo-card-icon">HTML</div>
+                  <div class="demo-card-line"></div>
+                  <div class="demo-card-line short"></div>
+                </div>
+                <div class="demo-card-sim">
+                  <div class="demo-card-icon">CSS</div>
+                  <div class="demo-card-line"></div>
+                  <div class="demo-card-line short"></div>
+                </div>
+                <div class="demo-card-sim">
+                  <div class="demo-card-icon">JS</div>
+                  <div class="demo-card-line"></div>
+                  <div class="demo-card-line short"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-icon">&lt;/&gt;</span>
+        <span class="logo-text">DevBlog</span>
+      </div>
+      <p class="footer-desc">HTML · CSS · JavaScript 기초 학습 블로그</p>
+      <nav class="footer-nav">
+        <a href="#html">HTML</a>
+        <a href="#css">CSS</a>
+        <a href="#js">JS</a>
+        <a href="#project">Project</a>
+      </nav>
+      <p class="footer-copy">© 2026 정선민. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="scripts/main.js"></script>
+</body>
+</html>
