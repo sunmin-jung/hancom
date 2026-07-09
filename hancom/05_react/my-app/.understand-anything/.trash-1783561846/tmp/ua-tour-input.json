@@ -1,0 +1,33 @@
+{
+  "nodes": [
+    {"id": "document:README.md", "type": "document", "name": "README.md", "filePath": "README.md", "summary": "React + Vite 스타터 템플릿 개요 문서로, HMR 지원 공식 플러그인 두 가지와 React Compiler, ESLint 설정 확장 방법을 안내합니다."},
+    {"id": "config:package.json", "type": "config", "name": "package.json", "filePath": "package.json", "summary": "프로젝트 메타데이터와 npm 스크립트(dev, build, lint, preview)를 정의하며, React 19 및 Vite 8 기반 의존성 목록을 관리하는 핵심 설정 파일입니다."},
+    {"id": "config:vite.config.js", "type": "config", "name": "vite.config.js", "filePath": "vite.config.js", "summary": "Vite 빌드 도구 설정 파일로, @vitejs/plugin-react 플러그인을 활성화하여 React JSX 변환 및 HMR을 지원합니다."},
+    {"id": "config:eslint.config.js", "type": "config", "name": "eslint.config.js", "filePath": "eslint.config.js", "summary": "ESLint flat config 설정 파일로, React 및 React Hooks에 대한 린트 규칙을 적용합니다."},
+    {"id": "config:.gitignore", "type": "config", "name": ".gitignore", "filePath": ".gitignore", "summary": "Git 추적 제외 파일 목록을 정의하는 설정 파일입니다."},
+    {"id": "file:index.html", "type": "file", "name": "index.html", "filePath": "index.html", "summary": "Vite 애플리케이션의 HTML 진입점 파일로, React 앱이 마운트될 루트 DOM 요소(#root)를 포함하고 src/main.jsx를 모듈 스크립트로 로드합니다."},
+    {"id": "file:src/main.jsx", "type": "file", "name": "main.jsx", "filePath": "src/main.jsx", "summary": "React 애플리케이션의 부트스트랩 진입점으로, DOM의 root 엘리먼트에 App 컴포넌트를 StrictMode로 마운트합니다."},
+    {"id": "file:src/App.jsx", "type": "file", "name": "App.jsx", "filePath": "src/App.jsx", "summary": "React 애플리케이션의 루트 컴포넌트로, 히어로 섹션, 카운터 버튼, 다음 단계 안내 섹션을 포함한 메인 UI를 렌더링합니다."},
+    {"id": "file:src/App.css", "type": "file", "name": "App.css", "filePath": "src/App.css", "summary": "App 컴포넌트 전용 스타일 정의 파일로, hero 섹션, counter 버튼, ticks 레이아웃 등 메인 UI 요소의 시각적 스타일을 담당합니다."},
+    {"id": "file:src/index.css", "type": "file", "name": "index.css", "filePath": "src/index.css", "summary": "전역 스타일 시트로, 폰트, 색상, 기본 HTML 요소 및 버튼 스타일 등 애플리케이션 전반의 기본 시각적 속성을 정의합니다."},
+    {"id": "file:public/favicon.svg", "type": "file", "name": "favicon.svg", "filePath": "public/favicon.svg", "summary": "React 로고 형태의 SVG 파비콘 파일로, 브라우저 탭 아이콘으로 사용됩니다."},
+    {"id": "file:public/icons.svg", "type": "file", "name": "icons.svg", "filePath": "public/icons.svg", "summary": "여러 아이콘 심볼을 포함하는 SVG 스프라이트 파일로, UI 컴포넌트에서 참조해 재사용 가능한 아이콘을 제공합니다."}
+  ],
+  "edges": [
+    {"source": "file:index.html", "target": "file:src/main.jsx", "type": "imports"},
+    {"source": "config:eslint.config.js", "target": "file:src/main.jsx", "type": "configures"},
+    {"source": "config:vite.config.js", "target": "file:index.html", "type": "configures"},
+    {"source": "config:package.json", "target": "config:vite.config.js", "type": "configures"},
+    {"source": "document:README.md", "target": "file:index.html", "type": "documents"},
+    {"source": "file:src/App.jsx", "target": "file:src/App.css", "type": "imports"},
+    {"source": "file:src/main.jsx", "target": "file:src/index.css", "type": "imports"},
+    {"source": "file:src/main.jsx", "target": "file:src/App.jsx", "type": "imports"},
+    {"source": "file:src/main.jsx", "target": "file:index.html", "type": "depends_on"}
+  ],
+  "layers": [
+    {"id": "layer:ui", "name": "UI 레이어", "description": "React 루트 컴포넌트, 앱 부트스트랩 진입점, 컴포넌트 스타일 및 전역 스타일 시트를 포함하는 프론트엔드 UI 레이어"},
+    {"id": "layer:assets", "name": "에셋 레이어", "description": "브라우저 파비콘과 아이콘 스프라이트 등 정적 SVG 에셋 파일을 제공하는 레이어"},
+    {"id": "layer:config", "name": "설정 레이어", "description": "Vite 빌드 도구, ESLint 린터, npm 패키지 메타데이터, Git 버전 관리 제외 목록 등 프로젝트 전반의 도구 및 빌드 설정 파일을 관리하는 레이어"},
+    {"id": "layer:documentation", "name": "문서 레이어", "description": "React + Vite 스타터 템플릿의 프로젝트 개요와 시작 가이드를 제공하는 문서 레이어"}
+  ]
+}

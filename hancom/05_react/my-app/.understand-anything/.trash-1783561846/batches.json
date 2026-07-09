@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "louvain",
+  "totalFiles": 12,
+  "totalBatches": 2,
+  "exportsByPath": {
+    "src/main.jsx": [],
+    "src/App.jsx": [],
+    "src/App.css": [],
+    "src/index.css": []
+  },
+  "batches": [
+    {
+      "batchIndex": 1,
+      "files": [
+        {
+          "path": ".gitignore",
+          "language": "text",
+          "sizeLines": 24,
+          "fileCategory": "config"
+        },
+        {
+          "path": "README.md",
+          "language": "markdown",
+          "sizeLines": 16,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "eslint.config.js",
+          "language": "javascript",
+          "sizeLines": 21,
+          "fileCategory": "config"
+        },
+        {
+          "path": "index.html",
+          "language": "html",
+          "sizeLines": 14,
+          "fileCategory": "markup"
+        },
+        {
+          "path": "package.json",
+          "language": "json",
+          "sizeLines": 27,
+          "fileCategory": "config"
+        },
+        {
+          "path": "vite.config.js",
+          "language": "javascript",
+          "sizeLines": 7,
+          "fileCategory": "config"
+        }
+      ],
+      "batchImportData": {
+        ".gitignore": [],
+        "README.md": [],
+        "eslint.config.js": [],
+        "index.html": [
+          "src/main.jsx"
+        ],
+        "package.json": [],
+        "vite.config.js": []
+      },
+      "neighborMap": {
+        "index.html": [
+          {
+            "path": "src/main.jsx",
+            "batchIndex": 2,
+            "symbols": []
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 2,
+      "files": [
+        {
+          "path": "public/favicon.svg",
+          "language": "svg",
+          "sizeLines": 10,
+          "fileCategory": "data"
+        },
+        {
+          "path": "public/icons.svg",
+          "language": "svg",
+          "sizeLines": 50,
+          "fileCategory": "data"
+        },
+        {
+          "path": "src/App.css",
+          "language": "css",
+          "sizeLines": 185,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/App.jsx",
+          "language": "jsx",
+          "sizeLines": 124,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/index.css",
+          "language": "css",
+          "sizeLines": 112,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/main.jsx",
+          "language": "jsx",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "public/favicon.svg": [],
+        "public/icons.svg": [],
+        "src/App.css": [],
+        "src/App.jsx": [
+          "src/App.css"
+        ],
+        "src/index.css": [],
+        "src/main.jsx": [
+          "src/index.css",
+          "src/App.jsx"
+        ]
+      },
+      "neighborMap": {
+        "src/main.jsx": [
+          {
+            "path": "index.html",
+            "batchIndex": 1,
+            "symbols": []
+          }
+        ]
+      }
+    }
+  ]
+}

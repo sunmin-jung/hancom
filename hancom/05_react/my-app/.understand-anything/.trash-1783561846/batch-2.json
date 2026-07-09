@@ -1,0 +1,115 @@
+{
+  "nodes": [
+    {
+      "id": "file:public/favicon.svg",
+      "type": "file",
+      "name": "favicon.svg",
+      "filePath": "public/favicon.svg",
+      "summary": "React 로고 형태의 SVG 파비콘 파일로, 브라우저 탭 아이콘으로 사용됩니다.",
+      "tags": ["asset", "icon", "markup"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:public/icons.svg",
+      "type": "file",
+      "name": "icons.svg",
+      "filePath": "public/icons.svg",
+      "summary": "여러 아이콘 심볼을 포함하는 SVG 스프라이트 파일로, UI 컴포넌트에서 참조해 재사용 가능한 아이콘을 제공합니다.",
+      "tags": ["asset", "icon", "markup", "sprite"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/App.css",
+      "type": "file",
+      "name": "App.css",
+      "filePath": "src/App.css",
+      "summary": "App 컴포넌트 전용 스타일 정의 파일로, hero 섹션, counter 버튼, ticks 레이아웃 등 메인 UI 요소의 시각적 스타일을 담당합니다.",
+      "tags": ["stylesheet", "component", "스타일링"],
+      "complexity": "moderate",
+      "languageNotes": "CSS 변수 및 Flexbox/Grid 레이아웃을 활용한 컴포넌트 스코프 스타일 파일입니다."
+    },
+    {
+      "id": "file:src/App.jsx",
+      "type": "file",
+      "name": "App.jsx",
+      "filePath": "src/App.jsx",
+      "summary": "React 애플리케이션의 루트 컴포넌트로, 히어로 섹션, 카운터 버튼, 다음 단계 안내 섹션을 포함한 메인 UI를 렌더링합니다.",
+      "tags": ["entry-point", "component", "ui", "root-component"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/App.jsx:App",
+      "type": "function",
+      "name": "App",
+      "filePath": "src/App.jsx",
+      "lineRange": [7, 122],
+      "summary": "useState hook을 사용해 카운터 상태를 관리하며, 히어로 이미지, 제목, 카운터 버튼, 링크 섹션을 포함한 전체 페이지 레이아웃을 렌더링하는 루트 React 컴포넌트입니다.",
+      "tags": ["component", "entry-point", "hook", "ui"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/index.css",
+      "type": "file",
+      "name": "index.css",
+      "filePath": "src/index.css",
+      "summary": "전역 스타일 시트로, 폰트, 색상, 기본 HTML 요소 및 버튼 스타일 등 애플리케이션 전반의 기본 시각적 속성을 정의합니다.",
+      "tags": ["stylesheet", "global", "기본-스타일", "설정"],
+      "complexity": "moderate",
+      "languageNotes": "CSS 사용자 정의 속성(변수)과 prefers-color-scheme 미디어 쿼리를 사용해 다크/라이트 테마를 지원합니다."
+    },
+    {
+      "id": "file:src/main.jsx",
+      "type": "file",
+      "name": "main.jsx",
+      "filePath": "src/main.jsx",
+      "summary": "React 애플리케이션의 부트스트랩 진입점으로, DOM의 root 엘리먼트에 App 컴포넌트를 StrictMode로 마운트합니다.",
+      "tags": ["entry-point", "진입점", "bootstrap"],
+      "complexity": "simple",
+      "languageNotes": "React 18+ createRoot API를 사용해 동시성 모드(Concurrent Mode)를 활성화합니다."
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/App.jsx",
+      "target": "function:src/App.jsx:App",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/App.jsx",
+      "target": "function:src/App.jsx:App",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/App.jsx",
+      "target": "file:src/App.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/main.jsx",
+      "target": "file:src/index.css",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/main.jsx",
+      "target": "file:src/App.jsx",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/main.jsx",
+      "target": "file:index.html",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ]
+}

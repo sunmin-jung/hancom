@@ -1,0 +1,19 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 0,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "Merge was performed manually (Python unavailable); 13 nodes and 11 edges match the reported counts exactly.",
+    "All node IDs follow the correct convention: config:, document:, file:, function: prefixes applied consistently.",
+    "All complexity values are canonical (simple or moderate); no unknown values found.",
+    "All node types are valid (config, document, file, function); no unknown or aliased types found.",
+    "All four import-map relationships are covered by existing imports edges: index.html->src/main.jsx, src/App.jsx->src/App.css, src/main.jsx->src/index.css, src/main.jsx->src/App.jsx.",
+    "No dangling edges detected; every edge source and target resolves to an existing node.",
+    "The eslint.config.js->file:src/main.jsx configures edge is semantically narrow (ESLint applies to all source files), but is not incorrect — it is a representative link acceptable for a small project.",
+    "file:src/main.jsx->file:index.html depends_on edge is valid: main.jsx mounts React into the #root element declared in index.html.",
+    "No nodes were dropped, no IDs were malformed, no fixes were needed. Graph is complete and consistent."
+  ]
+}

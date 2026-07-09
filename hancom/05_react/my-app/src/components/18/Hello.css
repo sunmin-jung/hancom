@@ -1,0 +1,18 @@
+.box {
+    padding: 20px;
+    background-color: rgb(97, 88, 88);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.box h1 {
+    color: rgb(146, 18, 146);
+}
+
+ol li {
+    color:rgb(26, 7, 7)
+}
+
+div .text {
+    color:rgb(182, 70, 70)
+}

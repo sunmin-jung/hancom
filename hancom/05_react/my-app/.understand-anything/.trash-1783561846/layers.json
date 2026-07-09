@@ -1,0 +1,42 @@
+[
+  {
+    "id": "layer:ui",
+    "name": "UI 레이어",
+    "description": "React 루트 컴포넌트, 앱 부트스트랩 진입점, 컴포넌트 스타일 및 전역 스타일 시트를 포함하는 프론트엔드 UI 레이어",
+    "nodeIds": [
+      "file:src/App.jsx",
+      "file:src/main.jsx",
+      "file:src/App.css",
+      "file:src/index.css",
+      "file:index.html"
+    ]
+  },
+  {
+    "id": "layer:assets",
+    "name": "에셋 레이어",
+    "description": "브라우저 파비콘과 아이콘 스프라이트 등 정적 SVG 에셋 파일을 제공하는 레이어",
+    "nodeIds": [
+      "file:public/favicon.svg",
+      "file:public/icons.svg"
+    ]
+  },
+  {
+    "id": "layer:config",
+    "name": "설정 레이어",
+    "description": "Vite 빌드 도구, ESLint 린터, npm 패키지 메타데이터, Git 버전 관리 제외 목록 등 프로젝트 전반의 도구 및 빌드 설정 파일을 관리하는 레이어",
+    "nodeIds": [
+      "config:package.json",
+      "config:vite.config.js",
+      "config:eslint.config.js",
+      "config:.gitignore"
+    ]
+  },
+  {
+    "id": "layer:documentation",
+    "name": "문서 레이어",
+    "description": "React + Vite 스타터 템플릿의 프로젝트 개요와 시작 가이드를 제공하는 문서 레이어",
+    "nodeIds": [
+      "document:README.md"
+    ]
+  }
+]

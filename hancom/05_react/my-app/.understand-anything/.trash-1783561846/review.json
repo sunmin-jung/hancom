@@ -1,0 +1,28 @@
+{
+  "issues": [],
+  "warnings": [
+    "Node 'config:.gitignore' has no edges (orphan)",
+    "Node 'file:public/favicon.svg' has no edges (orphan)",
+    "Node 'file:public/icons.svg' has no edges (orphan)"
+  ],
+  "stats": {
+    "totalNodes": 13,
+    "totalEdges": 11,
+    "totalLayers": 4,
+    "tourSteps": 7,
+    "nodeTypes": {
+      "config": 4,
+      "document": 1,
+      "file": 7,
+      "function": 1
+    },
+    "edgeTypes": {
+      "imports": 4,
+      "configures": 3,
+      "documents": 1,
+      "contains": 1,
+      "exports": 1,
+      "depends_on": 1
+    }
+  }
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "order": 1,
+    "title": "프로젝트 개요",
+    "description": "README.md에서 프로젝트의 목적과 구성을 파악하세요. 이 템플릿은 React 19와 Vite 8을 결합한 최소한의 프론트엔드 개발 환경으로, HMR(Hot Module Replacement)과 ESLint 규칙이 미리 설정되어 있습니다.",
+    "nodeIds": ["document:README.md"]
+  },
+  {
+    "order": 2,
+    "title": "빌드 환경 설정",
+    "description": "package.json과 vite.config.js는 프로젝트의 핵심 빌드 인프라를 정의합니다. package.json은 React 19, React DOM, Vite 의존성과 dev/build/lint/preview 스크립트를 관리하며, vite.config.js는 @vitejs/plugin-react를 활성화하여 JSX 변환과 HMR을 지원합니다.",
+    "nodeIds": ["config:package.json", "config:vite.config.js"],
+    "languageLesson": "Vite는 개발 서버에서 네이티브 ES 모듈을 활용해 번들링 없이 빠른 HMR을 제공합니다. 프로덕션 빌드 시에는 Rollup으로 최적화된 번들을 생성합니다."
+  },
+  {
+    "order": 3,
+    "title": "HTML 진입점",
+    "description": "index.html은 Vite 앱의 시작점으로, React가 마운트될 빈 `<div id=\"root\">` 컨테이너를 정의하고 `<script type=\"module\">` 태그로 src/main.jsx를 로드합니다. Vite는 이 파일을 직접 서빙하며 빌드 시에도 기준점으로 사용합니다.",
+    "nodeIds": ["file:index.html"]
+  },
+  {
+    "order": 4,
+    "title": "애플리케이션 부트스트랩",
+    "description": "src/main.jsx는 React 트리의 시작점입니다. createRoot()로 React 18+의 동시성 모드를 활성화하고, StrictMode로 감싸 개발 중 잠재적 문제를 조기에 감지합니다. 전역 스타일(index.css)을 여기서 임포트하여 앱 전체에 적용합니다.",
+    "nodeIds": ["file:src/main.jsx", "file:src/index.css"],
+    "languageLesson": "React.StrictMode는 개발 환경에서 컴포넌트를 두 번 렌더링하여 부작용(side effect)을 감지합니다. 프로덕션 빌드에서는 성능에 영향을 주지 않습니다."
+  },
+  {
+    "order": 5,
+    "title": "루트 컴포넌트",
+    "description": "src/App.jsx는 현재 앱의 유일한 React 컴포넌트입니다. useState hook으로 카운터 상태를 관리하며, 히어로 이미지 섹션·카운터 버튼·문서 및 소셜 링크 섹션으로 구성된 전체 페이지 레이아웃을 렌더링합니다.",
+    "nodeIds": ["file:src/App.jsx", "file:src/App.css"],
+    "languageLesson": "useState는 React의 가장 기본적인 hook으로, 컴포넌트 내부에 상태를 추가합니다. 상태가 변경되면 컴포넌트가 리렌더링되어 UI가 자동으로 업데이트됩니다."
+  },
+  {
+    "order": 6,
+    "title": "정적 에셋",
+    "description": "public/ 디렉터리의 SVG 파일들은 빌드 과정 없이 그대로 서빙됩니다. favicon.svg는 브라우저 탭 아이콘으로, icons.svg는 App.jsx의 문서·소셜 섹션에서 `<use href=\"/icons.svg#...\">` 방식으로 참조되는 SVG 스프라이트입니다.",
+    "nodeIds": ["file:public/favicon.svg", "file:public/icons.svg"]
+  },
+  {
+    "order": 7,
+    "title": "코드 품질 도구",
+    "description": "eslint.config.js는 ESLint의 새로운 flat config 형식을 사용하여 React hooks 규칙과 React Refresh 규칙을 적용합니다. .gitignore는 node_modules, dist 빌드 결과물, 환경 변수 파일 등을 버전 관리에서 제외합니다.",
+    "nodeIds": ["config:eslint.config.js", "config:.gitignore"]
+  }
+]
