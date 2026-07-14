@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>우리 반 배치도</title>
+</head>
+<body>
+  <h1>우리 반 배치도</h1>
+
+  <script>
+    const BASE = 'http://192.168.10.28:5000';
+    const MY_CLASS = '정선민'; // ← 본인 이름으로 바꾸기 (명단에 있는 이름과 똑같이)
+    const HEADERS = { 'Authorization': 'HANCOM' };
+
+    fetch(`${BASE}/hancom/${MY_CLASS}/users`, { headers: HEADERS })
+      .then(res => res.json())
+      .then(students => {
+        console.log(students);
+      });
+
+         async function removeStudent(id) {
+      await fetch(`${BASE}/hancom/${MY_CLASS}/users/${id}`, {
+        method: 'DELETE',
+        headers: HEADERS
+      });
+    }
+
+    async function cleanUp() {
+      const fakeIds = [4, 5, 10, 14, 16, 22];
+      for (const id of fakeIds) {
+        await removeStudent(id);
+      }
+      console.log('삭제 완료!');
+    }
+
+    //cleanUp();
+  </script>
+</body>
+</html>

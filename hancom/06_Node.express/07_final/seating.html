@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>우리 반 배치도</title>
+  <style>
+    #seat-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      max-width: 600px;
+    }
+    .seat {
+      border: 1px solid #999;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+    }
+    .seat:hover {
+      background: #f0f0f0;
+    }
+        .empty-seat {
+      border: 1px dashed #ccc;
+      color: #aaa;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>우리 반 배치도</h1>
+
+    <button id="add-btn">+ 학생 추가</button>
+  <div id="seat-grid"></div>
+  
+
+  <script>
+    const BASE = 'http://192.168.10.28:5000';
+    const MY_CLASS = '정선민';
+    const HEADERS = { 'Authorization': 'HANCOM' };
+
+    async function getStudents() {
+      const res = await fetch(`${BASE}/hancom/${MY_CLASS}/users`, { headers: HEADERS });
+      return res.json();
+    }
+
+       function render(students) {
+      const grid = document.getElementById('seat-grid');
+      grid.innerHTML = '';
+
+      students.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'seat';
+        div.dataset.id = s.id;
+        div.innerHTML = `${s.name} <span class="del-btn" data-id="${s.id}">✕</span>`;
+        grid.appendChild(div);
+      });
+
+      const totalSeats = 24;
+      const emptyCount = totalSeats - students.length;
+      for (let i = 0; i < emptyCount; i++) {
+        const div = document.createElement('div');
+        div.className = 'seat empty-seat';
+        grid.appendChild(div);
+      }
+    }
+
+
+    getStudents().then(render);
+        const CORRECT_LIST = [
+      '강성원','강하영','김정아','김정현','김해냄','김효인','박진','안치호','양하은','유민성',
+      '이도연','이현우','임소정','전욱진','정기준','정선민','정유진','표후동','한유진','한윤지'
+    ];
+
+    async function autoCleanUp() {
+      const students = await getStudents();
+      const fakes = students.filter(s => !CORRECT_LIST.includes(s.name));
+      for (const f of fakes) {
+        await removeStudent(f.id);
+      }
+      render(await getStudents());
+      console.log('정리 완료!');
+    }
+
+
+        async function updateStudent(id, newName) {
+      await fetch(`${BASE}/hancom/${MY_CLASS}/users/${id}`, {
+        method: 'PUT',
+        headers: { ...HEADERS, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newName })
+      });
+    }
+    
+        async function addStudent(name) {
+      await fetch(`${BASE}/hancom/${MY_CLASS}/users`, {
+        method: 'POST',
+        headers: { ...HEADERS, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+    }
+
+    async function removeStudent(id) {
+      await fetch(`${BASE}/hancom/${MY_CLASS}/users/${id}`, {
+        method: 'DELETE',
+        headers: HEADERS
+      });
+    }
+
+    document.getElementById('add-btn').addEventListener('click', async () => {
+      const name = prompt('추가할 학생 이름을 입력하세요');
+      if (!name) return;
+      await addStudent(name);
+      render(await getStudents());
+    });
+
+    document.getElementById('seat-grid').addEventListener('click', async (e) => {
+      // 삭제 버튼(x) 클릭 처리 — 먼저 체크해야 함
+      if (e.target.classList.contains('del-btn')) {
+        const id = e.target.dataset.id;
+        if (confirm('정말 삭제하시겠습니까?')) {
+          await removeStudent(id);
+          render(await getStudents());
+        }
+        return;
+      }
+
+            // 빈 좌석 클릭 → 새 학생 추가
+      if (e.target.classList.contains('empty-seat')) {
+        const name = prompt('추가할 학생 이름을 입력하세요');
+        if (!name) return;
+        await addStudent(name);
+        render(await getStudents());
+        return;
+      }
+
+
+      // 이름 클릭 → 수정 (기존 코드)
+      const seat = e.target.closest('.seat');
+      if (!seat) return;
+      const newName = prompt('새 이름을 입력하세요', seat.textContent.replace('✕','').trim());
+      if (!newName) return;
+      await updateStudent(seat.dataset.id, newName);
+      render(await getStudents());
+    });
+
+  </script>
+</body>
+</html>
