@@ -109,3 +109,144 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* ===== 거북이 게임 ===== */
+
+.game-page {
+  position: relative;
+  overflow: hidden;
+  padding: 0 20px 40px;
+}
+
+.game-stats {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.game-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.game-canvas-wrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.game-over-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.game-over-overlay button {
+  margin-top: 8px;
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.fun-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 200px;
+}
+
+.fact-card {
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+.fact-card:hover {
+  transform: translateY(-3px);
+}
+
+.fact-emoji {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.fact-card p {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.fact-card strong {
+  color: var(--text-h);
+}
+
+.cute-divider {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-size: 22px;
+  margin: 12px 0 24px;
+}
+.cute-divider span {
+  animation: bob 2.4s ease-in-out infinite;
+}
+.cute-divider span:nth-child(2) { animation-delay: 0.3s; }
+.cute-divider span:nth-child(3) { animation-delay: 0.6s; }
+.cute-divider span:nth-child(4) { animation-delay: 0.9s; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.floating-clouds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.cloud {
+  position: absolute;
+  font-size: 32px;
+  opacity: 0.35;
+  animation: drift 18s linear infinite;
+}
+.cloud-1 { top: 8%; animation-duration: 22s; }
+.cloud-2 { top: 22%; animation-duration: 28s; animation-delay: -8s; }
+.cloud-3 { top: 4%; animation-duration: 25s; animation-delay: -14s; }
+
+@keyframes drift {
+  from { transform: translateX(-10vw); }
+  to { transform: translateX(110vw); }
+}
+.game-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
