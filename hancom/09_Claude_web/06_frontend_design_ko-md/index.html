@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>원티드 계산기</title>
+
+<!-- 폰트: Wanted Sans(디스플레이) + Pretendard(UI) — design.md 지정 CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/wanted-sans@1.0.3/fonts/webfonts/variable/split/WantedSansVariable.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+
+<style>
+  :root {
+    /* ── 서체 (design.md Typography) ── */
+    --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    --font-display: "Wanted Sans Variable", "Wanted Sans", var(--font-sans);
+
+    /* ── 브랜드 (design.md Colors) ── */
+    --blue-800:  oklch(0.563 0.232 257);   /* Wanted Blue, primary */
+    --blue-900:  oklch(0.484 0.205 258);   /* hover darken */
+    --blue-50:   oklch(0.985 0.012 247);
+    --bg-brand-subtle: oklch(0.954 0.022 250);
+
+    /* ── neutral 워크호스 팔레트 ── */
+    --bg-canvas:  oklch(1 0 0);
+    --bg-subtle:  oklch(0.972 0.002 286);
+    --bg-muted:   oklch(0.961 0.002 286);
+
+    /* alpha multiplier 텍스트 위계 (neutral-875 베이스) */
+    --fg-strong:    oklch(0.148 0.004 277);
+    --fg-default:   oklch(0.259 0.010 273 / 0.88);
+    --fg-secondary: oklch(0.298 0.010 273 / 0.61);
+    --fg-tertiary:  oklch(0.298 0.010 273 / 0.43);
+    --fg-brand:     var(--blue-800);
+
+    /* border 헤어라인 (neutral-700 베이스) */
+    --border-subtle:  oklch(0.521 0.018 273 / 0.08);
+    --border-default: oklch(0.521 0.018 273 / 0.22);
+
+    /* ── 그라디언트 ── */
+    /* 캔버스: 마케팅 hero 계열 (navy → blue → magenta) */
+    --canvas-gradient: linear-gradient(140deg, oklch(0.183 0.044 256) 0%, oklch(0.563 0.232 257) 55%, oklch(0.708 0.273 354) 100%);
+    /* 심볼: blue → magenta → coral 3-stop (avatar 토큰) */
+    --symbol-gradient: linear-gradient(135deg, oklch(0.563 0.232 257) 0%, oklch(0.708 0.273 354) 50%, oklch(0.665 0.218 38) 100%);
+
+    /* ── 라운드 (이산 ladder) ── */
+    --radius-8: 8px;
+    --radius-12: 12px;
+    --radius-20: 20px;
+    --radius-full: 9999px;
+
+    /* ── elevation ── */
+    --shadow-4: 0 12px 32px oklch(0 0 0 / 0.12), 0 4px 8px oklch(0.155 0 0 / 0.07);
+    --shadow-pop: 0 8px 24px oklch(0 0 0 / 0.12);
+
+    /* ── 모션 ── */
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --dur: 130ms;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    color: var(--fg-default);
+    background: var(--canvas-gradient);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 64px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ── 배경 워터마크 심볼 ── */
+  .watermark {
+    position: fixed;
+    right: -80px;
+    bottom: -100px;
+    width: 520px;
+    height: 520px;
+    opacity: 0.10;
+    pointer-events: none;
+    filter: drop-shadow(0 20px 60px oklch(0 0 0 / 0.2));
+    z-index: 0;
+  }
+  .watermark svg { width: 100%; height: 100%; }
+
+  /* ── 헤더 (워드마크) ── */
+  .brandbar {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+  .brandbar .mark { width: 30px; height: 30px; }
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.0194em;   /* 17px+ 음수 트래킹 정책 */
+    color: oklch(1 0 0);
+  }
+  .brandbar .tag {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.0145em;
+    color: oklch(1 0 0 / 0.82);
+    margin-left: 2px;
+    padding-left: 12px;
+    border-left: 1px solid oklch(1 0 0 / 0.28);
+  }
+
+  /* ── 레이아웃: 데스크톱 2열 ── */
+  .stage {
+    width: 100%;
+    max-width: 820px;
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 20px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── 계산기 카드 ── */
+  .calc {
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-20);
+    box-shadow: var(--shadow-4);
+    padding: 22px;
+  }
+
+  /* 디스플레이 */
+  .display {
+    position: relative;
+    padding: 12px 8px 18px;
+    text-align: right;
+    min-height: 116px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .expr {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.0096em;
+    color: var(--fg-secondary);
+    min-height: 22px;
+    font-variant-numeric: tabular-nums;
+    word-break: break-all;
+  }
+  .result {
+    font-family: var(--font-display);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.0282em;   /* display2 트래킹 */
+    color: var(--fg-strong);
+    font-variant-numeric: tabular-nums;
+    word-break: break-all;
+  }
+  .result.error { font-size: 24px; color: var(--fg-secondary); letter-spacing: -0.012em; }
+
+  /* 도장 자리 (우상단 고정) */
+  .stamp {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    transform: scale(0.6) rotate(-8deg);
+    pointer-events: none;
+  }
+  .stamp svg { width: 100%; height: 100%; display: block; }
+  .stamp.hit { animation: stampIn 900ms var(--ease) forwards; }
+  @keyframes stampIn {
+    0%   { opacity: 0; transform: scale(0.6) rotate(-8deg); }
+    14%  { opacity: 1; transform: scale(1.06) rotate(2deg); }
+    26%  { opacity: 1; transform: scale(1) rotate(0deg); }
+    62%  { opacity: 1; transform: scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: scale(1) rotate(0deg); }
+  }
+
+  /* 버튼 그리드 */
+  .keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .key {
+    height: 60px;
+    border: none;
+    border-radius: var(--radius-12);
+    font-family: var(--font-sans);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.002em;
+    cursor: pointer;
+    transition: background var(--dur) var(--ease), transform var(--dur) var(--ease), color var(--dur) var(--ease);
+    color: var(--fg-strong);
+    background: oklch(0.521 0.018 273 / 0.08);   /* button-tertiary */
+    user-select: none;
+  }
+  .key:hover { background: oklch(0.521 0.018 273 / 0.14); }
+  .key:active { transform: translateY(1px); }
+  .key:focus-visible {
+    outline: 2px solid var(--blue-800);
+    outline-offset: 2px;
+  }
+
+  /* 연산자: brand-subtle */
+  .key.op {
+    background: var(--bg-brand-subtle);
+    color: var(--fg-brand);
+    font-weight: 700;
+  }
+  .key.op:hover { background: var(--blue-50); }
+  .key.op.active { background: var(--blue-800); color: oklch(1 0 0); }
+
+  /* 유틸: neutral 약한 위계 */
+  .key.util { color: var(--fg-secondary); font-size: 18px; }
+
+  /* = : button-primary solid */
+  .key.equals {
+    background: var(--blue-800);
+    color: oklch(1 0 0);
+    font-weight: 700;
+  }
+  .key.equals:hover { background: var(--blue-900); }
+
+  .key.zero { grid-column: span 1; }
+
+  /* ── 기록 패널 ── */
+  .history {
+    background: var(--bg-canvas);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-20);
+    box-shadow: var(--shadow-4);
+    padding: 20px;
+    max-height: 520px;
+    display: flex;
+    flex-direction: column;
+  }
+  .history-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .history-head h2 {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.0145em;
+    color: var(--fg-strong);
+  }
+  .btn-clear {
+    border: none;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg-secondary);
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: var(--radius-8);
+    transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .btn-clear:hover { background: var(--bg-muted); color: var(--fg-default); }
+  .btn-clear:focus-visible { outline: 2px solid var(--blue-800); outline-offset: 2px; }
+  .btn-clear:disabled { color: var(--fg-tertiary); cursor: default; }
+
+  .history-list {
+    list-style: none;
+    overflow-y: auto;
+    margin: 0 -6px;
+    padding: 4px 0;
+  }
+  .history-item {
+    width: 100%;
+    text-align: right;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 10px 12px;
+    border-radius: var(--radius-8);
+    font-family: var(--font-sans);
+    transition: background var(--dur) var(--ease);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .history-item:hover { background: var(--bg-subtle); }
+  .history-item:focus-visible { outline: 2px solid var(--blue-800); outline-offset: -2px; }
+  .history-item .hx-expr {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg-secondary);
+    font-variant-numeric: tabular-nums;
+    word-break: break-all;
+  }
+  .history-item .hx-result {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.002em;
+    color: var(--fg-brand);
+    font-variant-numeric: tabular-nums;
+    word-break: break-all;
+  }
+
+  /* 빈 상태 */
+  .empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 16px;
+    gap: 12px;
+  }
+  .empty .ic {
+    width: 56px; height: 56px;
+    border-radius: var(--radius-full);
+    background: var(--bg-subtle);
+    color: var(--fg-tertiary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .empty p {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg-secondary);
+  }
+  .history.has-items .empty { display: none; }
+  .history:not(.has-items) .history-list { display: none; }
+
+  /* ── 토스트 ── */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%) translateY(12px);
+    background: oklch(0.196 0.008 273);       /* neutral-925 */
+    color: oklch(1 0 0);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 18px;
+    border-radius: var(--radius-12);
+    box-shadow: var(--shadow-pop);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms var(--ease), transform 200ms var(--ease);
+    z-index: 20;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* 키보드 입력 피드백 */
+  .key.kbd-active { background: oklch(0.521 0.018 273 / 0.20); }
+  .key.op.kbd-active { background: var(--blue-50); }
+  .key.equals.kbd-active { background: var(--blue-900); }
+
+  /* ── 모바일 ── */
+  @media (max-width: 720px) {
+    .stage { grid-template-columns: 1fr; max-width: 380px; }
+    .history { max-height: none; }
+  }
+
+  /* ── 모션 최소화 ── */
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+    .stamp.hit { animation: stampReduced 700ms steps(1) forwards; }
+    @keyframes stampReduced { 0%,80% { opacity: 1; } 100% { opacity: 0; } }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 배경 워터마크 -->
+  <div class="watermark" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wm-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#0066FF"/>
+          <stop offset="50%" stop-color="#FF53C0"/>
+          <stop offset="100%" stop-color="#FF5E00"/>
+        </linearGradient>
+      </defs>
+      <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#wm-grad)"/>
+      <path d="M26 38 L37 66 L50 44 L63 66 L74 38" stroke="#fff" stroke-width="7"
+            stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- 브랜드 바 -->
+  <header class="brandbar">
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="mk-grad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0066FF"/>
+            <stop offset="50%" stop-color="#FF53C0"/>
+            <stop offset="100%" stop-color="#FF5E00"/>
+          </linearGradient>
+        </defs>
+        <rect x="4" y="4" width="92" height="92" rx="26" fill="url(#mk-grad)"/>
+        <path d="M26 38 L37 66 L50 44 L63 66 L74 38" stroke="#fff" stroke-width="7"
+              stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </span>
+    <span class="wordmark">wanted</span>
+    <span class="tag">계산기</span>
+  </header>
+
+  <main class="stage">
+    <!-- 계산기 -->
+    <section class="calc" aria-label="계산기">
+      <div class="display">
+        <!-- 도장 자리 -->
+        <div class="stamp" id="stamp" aria-hidden="true">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="st-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0066FF"/>
+                <stop offset="50%" stop-color="#FF53C0"/>
+                <stop offset="100%" stop-color="#FF5E00"/>
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="92" height="92" rx="26" fill="url(#st-grad)"/>
+            <path d="M26 38 L37 66 L50 44 L63 66 L74 38" stroke="#fff" stroke-width="7"
+                  stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="expr" id="expr" aria-hidden="true"></div>
+        <div class="result" id="result" aria-live="polite">0</div>
+      </div>
+
+      <div class="keys" id="keys">
+        <button class="key util" data-action="clear">C</button>
+        <button class="key util" data-action="back" aria-label="한 글자 지우기">⌫</button>
+        <button class="key util" data-action="percent" aria-label="퍼센트">%</button>
+        <button class="key op" data-op="÷" aria-label="나누기">÷</button>
+
+        <button class="key" data-num="7">7</button>
+        <button class="key" data-num="8">8</button>
+        <button class="key" data-num="9">9</button>
+        <button class="key op" data-op="×" aria-label="곱하기">×</button>
+
+        <button class="key" data-num="4">4</button>
+        <button class="key" data-num="5">5</button>
+        <button class="key" data-num="6">6</button>
+        <button class="key op" data-op="−" aria-label="빼기">−</button>
+
+        <button class="key" data-num="1">1</button>
+        <button class="key" data-num="2">2</button>
+        <button class="key" data-num="3">3</button>
+        <button class="key op" data-op="+" aria-label="더하기">+</button>
+
+        <button class="key util" data-action="negate" aria-label="부호 전환">±</button>
+        <button class="key zero" data-num="0">0</button>
+        <button class="key" data-action="dot" aria-label="소수점">.</button>
+        <button class="key equals" data-action="equals" aria-label="계산">=</button>
+      </div>
+    </section>
+
+    <!-- 계산 기록 -->
+    <section class="history" id="history" aria-label="계산 기록">
+      <div class="history-head">
+        <h2>계산 기록</h2>
+        <button class="btn-clear" id="clearHistory" disabled>비우기</button>
+      </div>
+      <ul class="history-list" id="historyList"></ul>
+      <div class="empty">
+        <span class="ic" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16v4H4z"/><path d="M4 12h6"/><path d="M14 12h6"/>
+            <path d="M4 16h6"/><path d="M14 16h6"/><path d="M4 20h16"/>
+          </svg>
+        </span>
+        <p>아직 계산 기록이 없어요</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ── 상태 ──
+  var current = "0";      // 현재 입력 문자열
+  var previous = null;    // 이전 피연산자 (number)
+  var operator = null;    // "+", "−", "×", "÷"
+  var justEvaluated = false;
+  var overflow = false;   // 에러 상태
+  var history = [];
+
+  var elResult = document.getElementById("result");
+  var elExpr = document.getElementById("expr");
+  var elStamp = document.getElementById("stamp");
+  var elList = document.getElementById("historyList");
+  var elHistory = document.getElementById("history");
+  var elClear = document.getElementById("clearHistory");
+  var elToast = document.getElementById("toast");
+
+  var nf = new Intl.NumberFormat("ko-KR", { maximumFractionDigits: 10 });
+
+  // ── 표시용 포맷 (천단위 콤마, 소수부 유지) ──
+  function format(str) {
+    if (str === "" || str === "-") return str || "0";
+    var neg = str.charAt(0) === "-";
+    var body = neg ? str.slice(1) : str;
+    var parts = body.split(".");
+    var intPart = parts[0] === "" ? "0" : parts[0];
+    var out = nf.format(BigIntSafe(intPart));
+    if (parts.length > 1) out += "." + parts[1];
+    return (neg ? "-" : "") + out;
+  }
+  // 정수부가 아주 길어도 콤마 유지 (부동소수 정밀도 회피)
+  function BigIntSafe(intStr) {
+    intStr = intStr.replace(/^0+(?=\d)/, "");
+    return Number(intStr);
+  }
+
+  function opSymbol(op) { return op ? " " + op + " " : ""; }
+
+  function render() {
+    if (overflow) {
+      elResult.textContent = "계산할 수 없어요";
+      elResult.classList.add("error");
+      elExpr.textContent = "";
+      return;
+    }
+    elResult.classList.remove("error");
+    elResult.textContent = format(current);
+    if (operator !== null && previous !== null) {
+      elExpr.textContent = format(String(previous)) + opSymbol(operator);
+    } else {
+      elExpr.textContent = "";
+    }
+  }
+
+  // ── 계산 ──
+  function compute(a, b, op) {
+    switch (op) {
+      case "+": return a + b;
+      case "−": return a - b;
+      case "×": return a * b;
+      case "÷": return b === 0 ? null : a / b;
+    }
+    return b;
+  }
+
+  // 부동소수 잔재 정리
+  function clean(n) {
+    if (!isFinite(n)) return null;
+    var r = Math.round((n + Number.EPSILON) * 1e10) / 1e10;
+    return r;
+  }
+
+  function numToStr(n) {
+    return String(n);
+  }
+
+  // ── 입력 핸들러 ──
+  function inputNum(d) {
+    if (overflow) resetAll();
+    if (justEvaluated) { current = "0"; justEvaluated = false; }
+    if (current === "0") current = d;
+    else if (current === "-0") current = "-" + d;
+    else current += d;
+    render();
+  }
+
+  function inputDot() {
+    if (overflow) resetAll();
+    if (justEvaluated) { current = "0"; justEvaluated = false; }
+    if (current.indexOf(".") === -1) current += ".";
+    render();
+  }
+
+  function setOperator(op) {
+    if (overflow) return;
+    var cur = parseFloat(current);
+    if (operator !== null && previous !== null && !justEvaluated) {
+      // 체이닝: 앞 연산 먼저 처리
+      var res = compute(previous, cur, operator);
+      res = res === null ? null : clean(res);
+      if (res === null) { setError(); return; }
+      previous = res;
+      current = numToStr(res);
+    } else {
+      previous = cur;
+    }
+    operator = op;
+    justEvaluated = false;
+    current = "0";
+    render();
+    // 수식 라인이 "이전 op" 형태로 보이도록
+    elExpr.textContent = format(numToStr(previous)) + opSymbol(operator);
+  }
+
+  function equals() {
+    if (overflow || operator === null || previous === null) return;
+    var cur = parseFloat(current);
+    var exprText = format(numToStr(previous)) + " " + operator + " " + format(current);
+    var res = compute(previous, cur, operator);
+    res = res === null ? null : clean(res);
+    if (res === null) { setError(); return; }
+    var resStr = numToStr(res);
+    pushHistory(exprText, format(resStr));
+    current = resStr;
+    previous = null;
+    operator = null;
+    justEvaluated = true;
+    render();
+    stamp();
+  }
+
+  function percent() {
+    if (overflow) return;
+    var cur = parseFloat(current);
+    var res = clean(cur / 100);
+    current = numToStr(res);
+    justEvaluated = false;
+    render();
+  }
+
+  function negate() {
+    if (overflow) return;
+    if (current === "0") return;
+    if (current.charAt(0) === "-") current = current.slice(1);
+    else current = "-" + current;
+    render();
+  }
+
+  function backspace() {
+    if (overflow) { resetAll(); return; }
+    if (justEvaluated) return;
+    if (current.length <= 1 || (current.length === 2 && current.charAt(0) === "-")) {
+      current = "0";
+    } else {
+      current = current.slice(0, -1);
+    }
+    render();
+  }
+
+  function resetAll() {
+    current = "0"; previous = null; operator = null;
+    justEvaluated = false; overflow = false;
+    render();
+  }
+
+  function setError() {
+    overflow = true;
+    previous = null; operator = null;
+    render();
+  }
+
+  // ── 기록 ──
+  function pushHistory(expr, result) {
+    history.unshift({ expr: expr, result: result });
+    if (history.length > 50) history.pop();
+    renderHistory();
+  }
+
+  function renderHistory() {
+    elList.innerHTML = "";
+    history.forEach(function (h) {
+      var li = document.createElement("li");
+      var btn = document.createElement("button");
+      btn.className = "history-item";
+      btn.type = "button";
+      btn.setAttribute("aria-label", h.expr + " 는 " + h.result + ", 눌러서 결과 불러오기");
+      var e = document.createElement("span");
+      e.className = "hx-expr";
+      e.textContent = h.expr + " =";
+      var r = document.createElement("span");
+      r.className = "hx-result";
+      r.textContent = h.result;
+      btn.appendChild(e);
+      btn.appendChild(r);
+      btn.addEventListener("click", function () {
+        // 결과를 현재 입력으로 재사용
+        current = h.result.replace(/,/g, "");
+        previous = null; operator = null; overflow = false;
+        justEvaluated = true;
+        render();
+        stamp();
+      });
+      li.appendChild(btn);
+      elList.appendChild(li);
+    });
+    var has = history.length > 0;
+    elHistory.classList.toggle("has-items", has);
+    elClear.disabled = !has;
+  }
+
+  document.getElementById("clearHistory").addEventListener("click", function (ev) {
+    ev.preventDefault();
+    if (history.length === 0) return;
+    history = [];
+    renderHistory();
+    showToast("기록을 비웠어요");
+  });
+
+  // ── 도장 모션 ──
+  var stampTimer = null;
+  function stamp() {
+    elStamp.classList.remove("hit");
+    // reflow로 애니메이션 재시작
+    void elStamp.offsetWidth;
+    elStamp.classList.add("hit");
+    if (stampTimer) clearTimeout(stampTimer);
+    stampTimer = setTimeout(function () {
+      elStamp.classList.remove("hit");
+    }, 950);
+  }
+
+  // ── 토스트 ──
+  var toastTimer = null;
+  function showToast(msg) {
+    elToast.textContent = msg;
+    elToast.classList.add("show");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      elToast.classList.remove("show");
+    }, 2400);
+  }
+
+  // ── 버튼 클릭 → 도장 ──
+  document.getElementById("keys").addEventListener("click", function (ev) {
+    var btn = ev.target.closest(".key");
+    if (!btn) return;
+    stamp();
+    handleKey(btn);
+  });
+
+  function handleKey(btn) {
+    if (btn.dataset.num !== undefined) { inputNum(btn.dataset.num); return; }
+    if (btn.dataset.op !== undefined) { setOperator(btn.dataset.op); return; }
+    switch (btn.dataset.action) {
+      case "clear": resetAll(); break;
+      case "back": backspace(); break;
+      case "percent": percent(); break;
+      case "negate": negate(); break;
+      case "dot": inputDot(); break;
+      case "equals": equals(); break;
+    }
+  }
+
+  // ── 키보드 ──
+  window.addEventListener("keydown", function (ev) {
+    var k = ev.key;
+    var sel = null;
+    if (/^[0-9]$/.test(k)) sel = '[data-num="' + k + '"]';
+    else if (k === ".") sel = '[data-action="dot"]';
+    else if (k === "+") sel = '[data-op="+"]';
+    else if (k === "-") sel = '[data-op="−"]';
+    else if (k === "*") sel = '[data-op="×"]';
+    else if (k === "/") { ev.preventDefault(); sel = '[data-op="÷"]'; }
+    else if (k === "Enter" || k === "=") { ev.preventDefault(); sel = '[data-action="equals"]'; }
+    else if (k === "Backspace") sel = '[data-action="back"]';
+    else if (k === "Escape") sel = '[data-action="clear"]';
+    else if (k === "%") sel = '[data-action="percent"]';
+    else return;
+
+    var btn = document.querySelector('.key' + sel);
+    if (btn) {
+      stamp();
+      handleKey(btn);
+      btn.classList.add("kbd-active");
+      setTimeout(function () { btn.classList.remove("kbd-active"); }, 120);
+    }
+  });
+
+  // ── 모바일 기록 접힘 상태 초기화 ──
+  render();
+  renderHistory();
+})();
+</script>
+</body>
+</html>

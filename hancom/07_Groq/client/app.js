@@ -4,7 +4,7 @@ document.getElementById('btn').addEventListener('click', () => {
   const prompt = document.getElementById('q').value
 
   // 내 서버(프록시) 창구로 요청 (키 없음)
-  fetch('http://localhost:3000/api/chat', {
+  fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ prompt })
@@ -14,5 +14,5 @@ document.getElementById('btn').addEventListener('click', () => {
     // 받은 답(reply)을 id="ans" 자리에 표시
     .then(data => { document.getElementById('ans').textContent = data.reply || data.error })
     // 서버가 안 켜져 있으면 안내 메시지
-    .catch(() => { document.getElementById('ans').textContent = '❌ 서버 안 켜짐? (server서 node index.js 먼저)' })
+    .catch(() => { document.getElementById('ans').textContent = '❌ 서버 응답 없음 (배포/vercel dev 확인)' })
 })

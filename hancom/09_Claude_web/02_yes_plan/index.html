@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>기본 계산기</title>
+
+  <!-- ============================================= -->
+  <!-- 2. 꾸미기 (CSS): 계산기 모양과 색을 정합니다 -->
+  <!-- ============================================= -->
+  <style>
+    /* 화면 전체 배경과 가운데 정렬 */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #1e1e2f;
+      font-family: "맑은 고딕", "Segoe UI", sans-serif;
+    }
+
+    /* 계산기 전체 상자 */
+    .calculator {
+      width: 320px;
+      background: #2a2a3d;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 결과창 (숫자가 보이는 곳) */
+    .display {
+      height: 80px;
+      background: #16161f;
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 40px;
+      text-align: right;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    /* 버튼들을 4칸씩 격자로 배치 */
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    /* 버튼 공통 모양 */
+    button {
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      font-size: 22px;
+      cursor: pointer;
+      background: #3d3d55;
+      color: #ffffff;
+      transition: background 0.15s;
+    }
+    button:hover {
+      background: #4d4d6b;
+    }
+
+    /* 연산 기호 버튼(+ - × ÷)은 주황색 */
+    .operator {
+      background: #ff9500;
+    }
+    .operator:hover {
+      background: #ffab33;
+    }
+
+    /* 초기화(C) 버튼은 빨간색 */
+    .clear {
+      background: #d64545;
+    }
+    .clear:hover {
+      background: #e35d5d;
+    }
+
+    /* 등호(=) 버튼은 초록색이고 가로로 2칸 차지 */
+    .equal {
+      background: #2ea043;
+      grid-column: span 2;
+    }
+    .equal:hover {
+      background: #3fbc55;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================= -->
+  <!-- 1. 뼈대 (HTML): 결과창과 버튼을 배치합니다 -->
+  <!-- ============================================= -->
+  <div class="calculator">
+    <!-- 결과창: 여기에 숫자와 결과가 나타납니다 -->
+    <div class="display" id="display">0</div>
+
+    <!-- 버튼 격자 -->
+    <div class="buttons">
+      <!-- onclick="함수()" : 버튼을 누르면 아래 자바스크립트 함수가 실행됩니다 -->
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button class="operator" onclick="press('/')">÷</button>
+      <button class="operator" onclick="press('*')">×</button>
+      <button class="operator" onclick="press('-')">−</button>
+
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button class="operator" onclick="press('+')">+</button>
+
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button onclick="press('.')">.</button>
+
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button onclick="press('0')">0</button>
+
+      <!-- 등호 버튼은 가로로 넓게 -->
+      <button class="equal" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <!-- ============================================= -->
+  <!-- 3. 동작 (JavaScript): 계산기가 실제로 작동하게 -->
+  <!-- ============================================= -->
+  <script>
+    // 결과창 요소를 미리 찾아둡니다
+    const display = document.getElementById("display");
+
+    // 지금까지 입력한 식(문자열)을 저장하는 변수
+    let expression = "";
+
+    // [숫자나 기호 버튼] 을 눌렀을 때 실행되는 함수
+    function press(value) {
+      // 식에 눌린 값을 이어 붙입니다. 예: "7" -> "7*" -> "7*8"
+      expression += value;
+      display.textContent = expression;
+    }
+
+    // [C 버튼] 을 눌렀을 때: 모두 지우고 0으로 되돌립니다
+    function clearDisplay() {
+      expression = "";
+      display.textContent = "0";
+    }
+
+    // [= 버튼] 을 눌렀을 때: 식을 계산해서 결과를 보여줍니다
+    function calculate() {
+      // 아무것도 입력하지 않았으면 그냥 넘어갑니다
+      if (expression === "") return;
+
+      try {
+        // 안전을 위해 숫자와 연산 기호만 남깁니다(그 외 문자는 제거)
+        const safe = expression.replace(/[^0-9+\-*/.]/g, "");
+
+        // Function으로 식을 계산합니다 (eval보다 조금 더 안전)
+        const result = new Function("return (" + safe + ")")();
+
+        // 0으로 나누기 등으로 무한대/오류가 나면 Error 표시
+        if (!isFinite(result)) {
+          display.textContent = "Error";
+          expression = "";
+          return;
+        }
+
+        // 결과를 화면에 보여주고, 이어서 계산할 수 있도록 저장합니다
+        expression = String(result);
+        display.textContent = expression;
+      } catch (e) {
+        // 식이 잘못되었을 때(예: "5++")도 Error 표시
+        display.textContent = "Error";
+        expression = "";
+      }
+    }
+
+    // (보너스) 키보드로도 입력할 수 있게 합니다
+    document.addEventListener("keydown", function (e) {
+      const key = e.key;
+      if ((key >= "0" && key <= "9") || "+-*/.".includes(key)) {
+        press(key);
+      } else if (key === "Enter" || key === "=") {
+        calculate();
+      } else if (key === "Escape") {
+        clearDisplay();
+      } else if (key === "Backspace") {
+        // 마지막 한 글자를 지웁니다
+        expression = expression.slice(0, -1);
+        display.textContent = expression === "" ? "0" : expression;
+      }
+    });
+  </script>
+</body>
+</html>

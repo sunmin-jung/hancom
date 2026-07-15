@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculator — 계산기</title>
+
+  <!-- 폰트: 세리프 제목(EB Garamond), 산세리프 본문(Inter), 모노 숫자(JetBrains Mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <!-- 브랜드 워드마크: 스파이크 마크 + 제목 -->
+    <header class="brand">
+      <svg class="spike" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 1 L13.4 9.2 L20.5 4.9 L15.2 11.1 L23 12 L15.2 12.9 L20.5 19.1 L13.4 14.8 L12 23 L10.6 14.8 L3.5 19.1 L8.8 12.9 L1 12 L8.8 11.1 L3.5 4.9 L10.6 9.2 Z"/>
+      </svg>
+      <h1 class="title">Calculator</h1>
+    </header>
+
+    <!-- 계산기 카드 -->
+    <section class="calculator" aria-label="계산기">
+      <!-- 화면: 다크 네이비 서피스 -->
+      <div class="display">
+        <div class="display-expression" id="expression" aria-hidden="true">&nbsp;</div>
+        <output class="display-current" id="current" aria-live="polite">0</output>
+      </div>
+
+      <!-- 버튼 패드: 4열 그리드 -->
+      <div class="keys" id="keys">
+        <button class="key key-clear" data-action="clear">C</button>
+        <button class="key key-op" data-op="/">÷</button>
+
+        <button class="key" data-digit="7">7</button>
+        <button class="key" data-digit="8">8</button>
+        <button class="key" data-digit="9">9</button>
+        <button class="key key-op" data-op="*">×</button>
+
+        <button class="key" data-digit="4">4</button>
+        <button class="key" data-digit="5">5</button>
+        <button class="key" data-digit="6">6</button>
+        <button class="key key-op" data-op="-">−</button>
+
+        <button class="key" data-digit="1">1</button>
+        <button class="key" data-digit="2">2</button>
+        <button class="key" data-digit="3">3</button>
+        <button class="key key-op" data-op="+">+</button>
+
+        <button class="key key-zero" data-digit="0">0</button>
+        <button class="key" data-action="decimal">.</button>
+        <button class="key key-equals" data-action="equals">=</button>
+      </div>
+    </section>
+
+    <p class="hint">키보드로도 입력할 수 있어요 · 숫자, + − × ÷, Enter(=), Esc(C)</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>계산기 · Vapor UI</title>
+
+  <!-- CDN Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* Vapor UI 토큰 — OKLCH to HEX 변환값 */
+      --color-white: #ffffff;
+      --color-black: #000000;
+
+      /* Gray family */
+      --color-gray-050: #fafafa;
+      --color-gray-100: #f5f5f5;
+      --color-gray-200: #e5e5e5;
+      --color-gray-300: #d0d0d0;
+      --color-gray-400: #b5b5b5;
+      --color-gray-500: #a8a8a8;
+      --color-gray-600: #525252;
+      --color-gray-700: #2e2e2e;
+      --color-gray-800: #3b3b3b;
+      --color-gray-900: #2b2b2b;
+
+      /* Blue family — brand primary */
+      --color-blue-050: #f0f9ff;
+      --color-blue-100: #e0f2fe;
+      --color-blue-200: #bae6fd;
+      --color-blue-300: #7dd3fc;
+      --color-blue-400: #38bdf8;
+      --color-blue-500: #3b82f6;
+      --color-blue-600: #2563eb;
+      --color-blue-700: #1d4ed8;
+      --color-blue-800: #1e40af;
+      --color-blue-900: #1e3a8a;
+
+      /* Red family — danger */
+      --color-red-050: #fef2f2;
+      --color-red-100: #fee2e2;
+      --color-red-200: #fecaca;
+      --color-red-300: #fca5a5;
+      --color-red-400: #f87171;
+      --color-red-500: #ef4444;
+      --color-red-600: #dc2626;
+      --color-red-700: #b91c1c;
+
+      /* Semantic aliases */
+      --color-background-canvas: var(--color-white);
+      --color-background-canvas-200: var(--color-gray-050);
+      --color-background-primary-100: var(--color-blue-050);
+      --color-background-secondary-100: var(--color-gray-100);
+      --color-background-danger-100: var(--color-red-050);
+
+      --color-foreground-primary-200: var(--color-blue-700);
+      --color-foreground-secondary-200: var(--color-gray-700);
+      --color-foreground-hint-100: var(--color-gray-600);
+      --color-foreground-danger-200: var(--color-red-700);
+
+      --color-border-primary: var(--color-blue-500);
+      --color-border-secondary: var(--color-gray-200);
+      --color-border-danger: var(--color-red-500);
+
+      /* Typography */
+      --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      --font-mono: 'Inter', monospace;
+
+      /* Spacing */
+      --space-025: 2px;
+      --space-050: 4px;
+      --space-100: 8px;
+      --space-150: 12px;
+      --space-200: 16px;
+      --space-300: 24px;
+      --space-400: 32px;
+      --space-500: 40px;
+
+      /* Border radius */
+      --radius-100: 4px;
+      --radius-200: 6px;
+      --radius-300: 8px;
+      --radius-400: 12px;
+
+      /* Elevation */
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.2);
+
+      /* Motion */
+      --motion-duration-fast: 120ms;
+      --motion-duration-normal: 180ms;
+      --motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--color-background-canvas-200);
+      color: var(--color-foreground-secondary-200);
+      padding: var(--space-200);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: var(--space-300);
+    }
+
+    .header-title {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-foreground-secondary-200);
+      letter-spacing: -0.4px;
+      margin-bottom: var(--space-100);
+    }
+
+    .header-subtitle {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-foreground-hint-100);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .card {
+      background-color: var(--color-background-canvas);
+      border: 1px solid var(--color-border-secondary);
+      border-radius: var(--radius-400);
+      padding: var(--space-300);
+      box-shadow: none;
+    }
+
+    .display-panel {
+      background-color: var(--color-background-canvas-200);
+      border: 1px solid var(--color-border-secondary);
+      border-radius: var(--radius-300);
+      padding: var(--space-200);
+      margin-bottom: var(--space-300);
+      text-align: right;
+      font-family: var(--font-mono);
+    }
+
+    .display-expression {
+      font-size: 13px;
+      color: var(--color-foreground-hint-100);
+      line-height: 1.4;
+      margin-bottom: var(--space-100);
+      min-height: 18px;
+      word-break: break-all;
+    }
+
+    .display-result {
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--color-foreground-secondary-200);
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+      min-height: 44px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      word-break: break-all;
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-100);
+      margin-bottom: var(--space-300);
+    }
+
+    .btn {
+      width: 100%;
+      height: 44px;
+      padding: 0;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid var(--color-border-secondary);
+      border-radius: var(--radius-300);
+      cursor: pointer;
+      transition: all var(--motion-duration-normal) var(--motion-ease-standard);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--color-border-primary);
+      outline-offset: 2px;
+    }
+
+    /* Button secondary — 숫자 버튼 */
+    .btn-number {
+      background-color: var(--color-background-canvas);
+      color: var(--color-foreground-secondary-200);
+      border-color: var(--color-border-secondary);
+    }
+
+    .btn-number:hover:not(:disabled) {
+      background-color: var(--color-background-secondary-100);
+      border-color: var(--color-gray-300);
+    }
+
+    .btn-number:active:not(:disabled) {
+      background-color: var(--color-gray-100);
+    }
+
+    /* Button primary-ghost — 연산자 */
+    .btn-operator {
+      background-color: var(--color-background-primary-100);
+      color: var(--color-foreground-primary-200);
+      border-color: transparent;
+    }
+
+    .btn-operator:hover:not(:disabled) {
+      background-color: var(--color-blue-100);
+    }
+
+    .btn-operator:active:not(:disabled) {
+      background-color: var(--color-blue-200);
+    }
+
+    .btn-operator.active-op {
+      background-color: var(--color-blue-200);
+      color: var(--color-blue-900);
+    }
+
+    /* Button primary — 등호 */
+    .btn-equals {
+      background-color: var(--color-blue-500);
+      color: var(--color-white);
+      border-color: transparent;
+      grid-column: span 2;
+    }
+
+    .btn-equals:hover:not(:disabled) {
+      background-color: var(--color-blue-600);
+    }
+
+    .btn-equals:active:not(:disabled) {
+      background-color: var(--color-blue-700);
+    }
+
+    /* Button secondary — 보조 버튼 */
+    .btn-auxiliary {
+      background-color: var(--color-background-secondary-100);
+      color: var(--color-foreground-secondary-200);
+      border-color: transparent;
+    }
+
+    .btn-auxiliary:hover:not(:disabled) {
+      background-color: var(--color-gray-200);
+    }
+
+    .btn-auxiliary:active:not(:disabled) {
+      background-color: var(--color-gray-300);
+    }
+
+    /* Button danger-outline — 초기화 */
+    .btn-clear {
+      background-color: var(--color-white);
+      color: var(--color-foreground-danger-200);
+      border-color: var(--color-border-danger);
+      grid-column: span 2;
+    }
+
+    .btn-clear:hover:not(:disabled) {
+      background-color: var(--color-red-050);
+    }
+
+    .btn-clear:active:not(:disabled) {
+      background-color: var(--color-red-100);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--color-foreground-hint-100);
+      margin-top: var(--space-300);
+    }
+
+    .footer a {
+      color: var(--color-blue-500);
+      text-decoration: none;
+      transition: color var(--motion-duration-normal) var(--motion-ease-standard);
+    }
+
+    .footer a:hover {
+      color: var(--color-blue-600);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .btn,
+      .footer a {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: calc(100vw - 32px);
+      }
+
+      .header-title {
+        font-size: 24px;
+      }
+
+      .display-result {
+        font-size: 28px;
+      }
+
+      .btn {
+        height: 40px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="header-title">계산기</h1>
+      <p class="header-subtitle">Vapor UI 기반</p>
+    </div>
+
+    <div class="card">
+      <div class="display-panel">
+        <div class="display-expression" id="expression"></div>
+        <div class="display-result" id="result">0</div>
+      </div>
+
+      <div class="btn-grid">
+        <!-- Row 1 -->
+        <button class="btn btn-clear" data-action="clear">C</button>
+        <button class="btn btn-auxiliary" data-action="negate">+/−</button>
+        <button class="btn btn-auxiliary" data-action="percent">%</button>
+        <button class="btn btn-operator" data-operator="/">÷</button>
+
+        <!-- Row 2 -->
+        <button class="btn btn-number" data-number="7">7</button>
+        <button class="btn btn-number" data-number="8">8</button>
+        <button class="btn btn-number" data-number="9">9</button>
+        <button class="btn btn-operator" data-operator="*">×</button>
+
+        <!-- Row 3 -->
+        <button class="btn btn-number" data-number="4">4</button>
+        <button class="btn btn-number" data-number="5">5</button>
+        <button class="btn btn-number" data-number="6">6</button>
+        <button class="btn btn-operator" data-operator="-">−</button>
+
+        <!-- Row 4 -->
+        <button class="btn btn-number" data-number="1">1</button>
+        <button class="btn btn-number" data-number="2">2</button>
+        <button class="btn btn-number" data-number="3">3</button>
+        <button class="btn btn-operator" data-operator="+">+</button>
+
+        <!-- Row 5 -->
+        <button class="btn btn-number" data-number="0" style="grid-column: span 2;">0</button>
+        <button class="btn btn-auxiliary" data-action="decimal">.</button>
+        <button class="btn btn-equals" data-action="equals">=</button>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-auxiliary" data-action="backspace" style="flex: 1;">⌫</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://vapor-ui.goorm.io/" target="_blank" rel="noopener noreferrer">Vapor UI</a> 기반
+    </div>
+  </div>
+
+  <script>
+    const state = {
+      currentValue: '0',
+      previousValue: null,
+      operator: null,
+      waitingForOperand: false,
+      expression: ''
+    };
+
+    const resultEl = document.getElementById('result');
+    const expressionEl = document.getElementById('expression');
+    const grid = document.querySelector('.btn-grid');
+
+    function updateDisplay() {
+      resultEl.textContent = formatDisplay(state.currentValue);
+      expressionEl.textContent = state.expression;
+      updateOperatorHighlight();
+    }
+
+    function formatDisplay(value) {
+      const trimmed = String(value).trim();
+      if (trimmed === '') return '0';
+      if (trimmed === 'NaN' || trimmed === 'Infinity') return '오류';
+      return trimmed;
+    }
+
+    function updateOperatorHighlight() {
+      document.querySelectorAll('.btn-operator').forEach(btn => {
+        const op = btn.dataset.operator;
+        if (state.operator === op && !state.waitingForOperand) {
+          btn.classList.add('active-op');
+        } else {
+          btn.classList.remove('active-op');
+        }
+      });
+    }
+
+    function handleNumber(num) {
+      if (state.waitingForOperand) {
+        state.currentValue = String(num);
+        state.waitingForOperand = false;
+      } else {
+        state.currentValue = state.currentValue === '0' ? String(num) : state.currentValue + num;
+      }
+      updateDisplay();
+    }
+
+    function handleDecimal() {
+      if (state.waitingForOperand) {
+        state.currentValue = '0.';
+        state.waitingForOperand = false;
+      } else if (!state.currentValue.includes('.')) {
+        state.currentValue += '.';
+      }
+      updateDisplay();
+    }
+
+    function handleOperator(op) {
+      const inputValue = parseFloat(state.currentValue);
+
+      if (state.previousValue === null) {
+        state.previousValue = inputValue;
+      } else if (!state.waitingForOperand) {
+        const result = calculate(state.previousValue, inputValue, state.operator);
+        state.currentValue = String(result);
+        state.previousValue = result;
+      }
+
+      state.operator = op;
+      state.waitingForOperand = true;
+      updateExpression();
+      updateDisplay();
+    }
+
+    function calculate(prev, current, op) {
+      switch (op) {
+        case '+': return prev + current;
+        case '-': return prev - current;
+        case '*': return prev * current;
+        case '/': return current === 0 ? NaN : prev / current;
+        default: return current;
+      }
+    }
+
+    function handleEquals() {
+      const inputValue = parseFloat(state.currentValue);
+
+      if (state.operator === null || state.previousValue === null) {
+        return;
+      }
+
+      const result = calculate(state.previousValue, inputValue, state.operator);
+      state.expression = '';
+      state.currentValue = String(result);
+      state.previousValue = null;
+      state.operator = null;
+      state.waitingForOperand = true;
+      updateDisplay();
+    }
+
+    function handleClear() {
+      state.currentValue = '0';
+      state.previousValue = null;
+      state.operator = null;
+      state.waitingForOperand = false;
+      state.expression = '';
+      updateDisplay();
+    }
+
+    function handleNegate() {
+      const value = parseFloat(state.currentValue);
+      state.currentValue = String(-value);
+      updateDisplay();
+    }
+
+    function handlePercent() {
+      const value = parseFloat(state.currentValue);
+      state.currentValue = String(value / 100);
+      updateDisplay();
+    }
+
+    function handleBackspace() {
+      if (state.currentValue.length > 1) {
+        state.currentValue = state.currentValue.slice(0, -1);
+      } else {
+        state.currentValue = '0';
+      }
+      updateDisplay();
+    }
+
+    function updateExpression() {
+      if (state.operator === null || state.previousValue === null) {
+        state.expression = '';
+      } else {
+        const opSymbol = {
+          '+': '+',
+          '-': '−',
+          '*': '×',
+          '/': '÷'
+        }[state.operator] || state.operator;
+        state.expression = `${state.previousValue} ${opSymbol}`;
+      }
+    }
+
+    grid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn');
+      if (!btn) return;
+
+      if (btn.dataset.number !== undefined) {
+        handleNumber(btn.dataset.number);
+      } else if (btn.dataset.operator) {
+        handleOperator(btn.dataset.operator);
+      } else if (btn.dataset.action === 'decimal') {
+        handleDecimal();
+      } else if (btn.dataset.action === 'equals') {
+        handleEquals();
+      } else if (btn.dataset.action === 'clear') {
+        handleClear();
+      } else if (btn.dataset.action === 'negate') {
+        handleNegate();
+      } else if (btn.dataset.action === 'percent') {
+        handlePercent();
+      }
+    });
+
+    document.querySelector('[data-action="backspace"]').addEventListener('click', handleBackspace);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key >= '0' && e.key <= '9') {
+        e.preventDefault();
+        handleNumber(e.key);
+      } else if (e.key === '.') {
+        e.preventDefault();
+        handleDecimal();
+      } else if (e.key === '+' || e.key === '-') {
+        e.preventDefault();
+        handleOperator(e.key);
+      } else if (e.key === '*') {
+        e.preventDefault();
+        handleOperator('*');
+      } else if (e.key === '/') {
+        e.preventDefault();
+        handleOperator('/');
+      } else if (e.key === 'Enter' || e.key === '=') {
+        e.preventDefault();
+        handleEquals();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        handleClear();
+      } else if (e.key === 'Backspace') {
+        e.preventDefault();
+        handleBackspace();
+      } else if (e.key === '%') {
+        e.preventDefault();
+        handlePercent();
+      }
+    });
+
+    updateDisplay();
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+/* ===== 기본 설정 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", "맑은 고딕", sans-serif;
+}
+
+/* 배경: 따뜻한 파스텔 그라데이션 🌸 */
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffe0ec 0%, #fff5e1 50%, #e6f7d9 100%);
+}
+
+/* ===== 계산기 박스 ===== */
+.calculator {
+  background: #fffdf9;
+  padding: 24px;
+  border-radius: 32px;
+  box-shadow: 0 12px 30px rgba(255, 170, 190, 0.35);
+  width: 320px;
+}
+
+/* ===== 결과 화면 ===== */
+.display {
+  background: #fff0f5;
+  color: #6b5b6e;
+  font-size: 42px;
+  text-align: right;
+  padding: 20px 18px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  min-height: 80px;
+  word-break: break-all;   /* 숫자가 길어지면 줄바꿈 */
+  overflow-wrap: break-word;
+}
+
+/* ===== 버튼 배치 (4칸 격자) ===== */
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  justify-items: center;
+}
+
+/* ===== 공통 버튼: 완전 원형 ⚪ ===== */
+.btn {
+  width: 62px;
+  height: 62px;
+  border: none;
+  border-radius: 50%;        /* 완전 동그란 버튼 */
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.15s ease;
+  color: #6b5b6e;
+}
+
+/* 마우스를 올렸을 때 살짝 밝아지기 */
+.btn:hover {
+  filter: brightness(1.05);
+}
+
+/* 눌렀을 때 살짝 작아지기 */
+.btn:active {
+  transform: scale(0.92);
+}
+
+/* 숫자 버튼: 크림색 */
+.num {
+  background: #fff3e0;
+}
+
+/* 연산자 버튼: 분홍색 */
+.op {
+  background: #ffcede;
+  color: #b3496b;
+}
+
+/* 초기화(C) 버튼: 살구색 */
+.clear {
+  background: #ffd8b0;
+  color: #b5651d;
+}
+
+/* 지우기(←) 버튼: 연보라색 */
+.back {
+  background: #e5d4ff;
+  color: #6b4ba3;
+}
+
+/* 등호(=) 버튼: 연둣빛, 세로로 길게 */
+.equal {
+  background: #c3ecac;
+  color: #4e7d33;
+  grid-row: span 2;          /* 세로 2칸 차지 */
+  height: 138px;             /* 두 칸 높이 */
+  border-radius: 40px;       /* 길쭉한 알약 모양 */
+}
+
+/* 0 버튼: 가로로 넓게 (두 칸 차지) */
+.zero {
+  grid-column: span 2;
+  width: 138px;
+  border-radius: 40px;       /* 길쭉한 알약 모양 */
+}

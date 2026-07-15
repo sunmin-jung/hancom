@@ -5,3 +5,5 @@
 *.jpeg
 *.png
 ./node_modules
+.env
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>가산기 · Adding Machine</title>
+
+  <!-- 구글 폰트: 숫자용 고정폭(JetBrains Mono), 명판용 슬랩(Zilla Slab), 한글(Noto Sans KR) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@400;500&family=Zilla+Slab:wght@500;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 나무 책상 위에 놓인 기계 한 대 -->
+  <main class="machine">
+
+    <!-- 종이 테이프: 계산 기록이 위로 밀려 나온다 -->
+    <div class="tape-slot">
+      <div class="tape" id="tape" aria-label="계산 기록 종이 테이프">
+        <p class="tape-hint">— 계산을 시작하세요 —</p>
+      </div>
+    </div>
+
+    <!-- 종이가 나오는 금속 슬롯(틈) -->
+    <div class="slot-lip" aria-hidden="true"></div>
+
+    <!-- 녹색 금속 몸체 -->
+    <div class="body">
+      <div class="nameplate">
+        <span class="brand">가산기</span>
+        <span class="sub">Adding Machine · Model 168</span>
+      </div>
+
+      <!-- LED 표시창: 지금 입력/결과를 보여준다 -->
+      <div class="display" id="display" role="status" aria-live="polite">0</div>
+
+      <!-- 키패드 -->
+      <div class="keys">
+        <button class="key fn"  data-action="clear">C</button>
+        <button class="key op"  data-value="/">÷</button>
+        <button class="key op"  data-value="*">×</button>
+        <button class="key fn"  data-action="back">←</button>
+
+        <button class="key num" data-value="7">7</button>
+        <button class="key num" data-value="8">8</button>
+        <button class="key num" data-value="9">9</button>
+        <button class="key op"  data-value="-">−</button>
+
+        <button class="key num" data-value="4">4</button>
+        <button class="key num" data-value="5">5</button>
+        <button class="key num" data-value="6">6</button>
+        <button class="key op"  data-value="+">+</button>
+
+        <button class="key num" data-value="1">1</button>
+        <button class="key num" data-value="2">2</button>
+        <button class="key num" data-value="3">3</button>
+        <button class="key equal" data-action="equal">=</button>
+
+        <button class="key num zero" data-value="0">0</button>
+        <button class="key num" data-value=".">.</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
