@@ -7,3 +7,8 @@
 ./node_modules
 .env
 
+# YOLO 모델 파일
+*.pt
+*.pth
+*.weights
+*.onnx
