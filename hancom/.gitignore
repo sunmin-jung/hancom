@@ -12,3 +12,14 @@
 *.pth
 *.weights
 *.onnx
+
+
+프로젝트 초기에 큰 파일들을 미리 제외:
+# 프로젝트 시작할 때 바로 추가
+*.pt
+*.pth
+*.weights
+*.onnx
+*.mp4
+node_modules/
+.env
